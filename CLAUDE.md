@@ -22,7 +22,10 @@ para el diseño completo.
 - `3. VALORACIÓN 25_26/` — material histórico original (18/19 a 25/26).
   **Nunca se mueve ni se borra directamente**; solo el comando
   `/vcf-auditoria` puede copiar de aquí a `DEPARTAMENTO_DOCENTE/`, y solo
-  tras confirmación explícita del usuario.
+  tras confirmación explícita del usuario. Esas copias hacen crecer el
+  repositorio de git con el tiempo, porque los binarios no son diffables,
+  así que conviene hacer las migraciones grandes de forma deliberada y no
+  todas de golpe.
 
 ## Comandos disponibles
 
@@ -43,6 +46,15 @@ tareas, salidas y límites.
 4. Contenido nuevo se escribe en Markdown. Nomenclatura de archivo:
    `ASIGNATURA_TIPO_UD_CURSO_VERSION_ESTADO.ext`
    (ejemplo: `VCF_UNIDAD_UD03_2026-2027_V01_BORRADOR.md`).
+
+   El `<NN>` de `UD<NN>` es la posición (empezando en 0) de la unidad entre
+   las unidades docentes reales de `ficha.yaml → unidades`, excluyendo los
+   bloques de evaluación o recuperación puros, que no reciben su propio
+   archivo UD numerado. Para subunidades que resultan de dividir una
+   unidad (p. ej. UT3a, UT3b, UT3c), se añade una letra minúscula al mismo
+   número de dos dígitos en vez de incrementarlo. Así, si `ficha.yaml →
+   unidades` contiene UT0, UT1, UT2, UT3a, UT3b, UT3c y UT4, la
+   correspondencia es UD00, UD01, UD02, UD03a, UD03b, UD03c y UD04.
 5. Las integraciones con Google Drive/Calendar se hacen solo cuando el
    usuario las pide explícitamente en ese momento — nunca en segundo plano.
 6. Cada vez que el usuario aprueba un documento, o confirma una migración o

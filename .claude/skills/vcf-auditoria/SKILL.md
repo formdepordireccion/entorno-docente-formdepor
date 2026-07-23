@@ -53,7 +53,12 @@ Tabla de propuesta de migración, archivos copiados tras confirmación,
 
 Nunca borra ni mueve el material original de `3. VALORACIÓN 25_26/` — solo
 copia. Nunca copia un archivo sin que el usuario lo haya confirmado
-explícitamente para ese archivo o para el bloque que lo contiene.
+explícitamente para ese archivo o para el bloque que lo contiene. Los
+archivos copiados pasan a formar parte del historial de git (el
+repositorio crece con el tiempo, porque los binarios no son diffables);
+para archivos muy grandes (decenas de MB o más), vale la pena valorar con
+el docente si de verdad necesitan vivir en git o si basta con una
+referencia ligera (nombre de archivo + nota en `migraciones.md`).
 
 ## Validación humana
 
