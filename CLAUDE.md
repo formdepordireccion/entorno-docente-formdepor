@@ -45,7 +45,8 @@ tareas, salidas y límites.
    (ejemplo: `VCF_UNIDAD_UD03_2026-2027_V01_BORRADOR.md`).
 5. Las integraciones con Google Drive/Calendar se hacen solo cuando el
    usuario las pide explícitamente en ese momento — nunca en segundo plano.
-6. Cada vez que el usuario aprueba un documento, se hace un commit de git
-   con un mensaje que identifique el documento.
+6. Cada vez que el usuario aprueba un documento, o confirma una migración o
+   copia de archivos (p. ej. en `/vcf-auditoria`), se hace un commit de git
+   con un mensaje que identifique el documento o la operación.
 7. Si una norma, fecha o dato no se puede verificar con una fuente real, se
    dice explícitamente en vez de inventarlo.
