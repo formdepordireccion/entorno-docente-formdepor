@@ -32,7 +32,7 @@ para el diseño completo.
 `/vcf-estado`, `/vcf-normativa`, `/vcf-auditoria`, `/vcf-programacion`,
 `/vcf-unidad`, `/vcf-tema`, `/vcf-tarea`, `/vcf-examen`, `/vcf-revision`,
 `/vcf-drive`, `/vcf-calendar-sync`, `/vcf-vigilancia`, `/vcf-diversidad`,
-`/vcf-recursos`, `/vcf-analitica`. Cada uno vive en
+`/vcf-recursos`, `/vcf-analitica`, `/vcf-mantenimiento`. Cada uno vive en
 `.claude/skills/<nombre>/SKILL.md` y documenta su propio rol, entradas,
 tareas, salidas y límites. `/vcf-revision` es el punto de entrada para
 revisar y aprobar en bloque lo que generan los demás; `/vcf-drive` y
@@ -45,6 +45,12 @@ a la regla 3 de abajo — trabajan con datos reales de alumnado
 (necesidades especiales y calificaciones respectivamente), que nunca
 salen de este disco. `/vcf-analitica` está definido pero no es
 ejecutable todavía: no hay calificaciones reales cargadas.
+`/vcf-mantenimiento` es el barrido quincenal de salud del proyecto
+entero: detecta desactualizaciones, dispara otras skills para
+regenerar contenido en `BORRADOR`, propone (sin aplicar) mejoras a
+otras skills, y deja un borrador de email si hay hallazgos — se ejecuta
+en local (nunca en la nube, porque necesita escribir en el
+repositorio), recordado cada 15 días por un evento de Google Calendar.
 
 ## Reglas fijas (aplican siempre, con o sin comando explícito)
 
@@ -93,3 +99,12 @@ ejecutable todavía: no hay calificaciones reales cargadas.
    con un mensaje que identifique el documento o la operación.
 7. Si una norma, fecha o dato no se puede verificar con una fuente real, se
    dice explícitamente en vez de inventarlo.
+8. `/vcf-mantenimiento` puede disparar otras skills de generación de
+   contenido (`/vcf-unidad`, `/vcf-tema`, `/vcf-tarea`, `/vcf-examen`,
+   `/vcf-programacion`) automáticamente para corregir desactualizaciones,
+   pero el resultado siempre queda en `BORRADOR` (regla 2) y nunca
+   dispara `/vcf-auditoria` ni `/vcf-normativa` por su cuenta. Ninguna
+   skill edita el `SKILL.md` de otra (ni el suyo propio) de forma
+   autónoma — como mucho, propone un cambio en
+   `00_CENTRO_CONTROL/propuestas_mejora_skills/` para que el docente lo
+   revise y decida.
