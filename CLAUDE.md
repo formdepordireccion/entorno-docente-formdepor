@@ -30,9 +30,10 @@ para el diseño completo.
 ## Comandos disponibles
 
 `/vcf-estado`, `/vcf-normativa`, `/vcf-auditoria`, `/vcf-programacion`,
-`/vcf-unidad`, `/vcf-tema`, `/vcf-examen`. Cada uno vive en
-`.claude/skills/<nombre>/SKILL.md` y documenta su propio rol, entradas,
-tareas, salidas y límites.
+`/vcf-unidad`, `/vcf-tema`, `/vcf-examen`, `/vcf-revision`. Cada uno vive
+en `.claude/skills/<nombre>/SKILL.md` y documenta su propio rol, entradas,
+tareas, salidas y límites. `/vcf-revision` es el punto de entrada para
+revisar y aprobar en bloque lo que generan los demás.
 
 ## Reglas fijas (aplican siempre, con o sin comando explícito)
 
