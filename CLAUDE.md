@@ -30,10 +30,14 @@ para el diseño completo.
 ## Comandos disponibles
 
 `/vcf-estado`, `/vcf-normativa`, `/vcf-auditoria`, `/vcf-programacion`,
-`/vcf-unidad`, `/vcf-tema`, `/vcf-examen`, `/vcf-revision`. Cada uno vive
-en `.claude/skills/<nombre>/SKILL.md` y documenta su propio rol, entradas,
+`/vcf-unidad`, `/vcf-tema`, `/vcf-examen`, `/vcf-revision`, `/vcf-drive`,
+`/vcf-calendar-sync`, `/vcf-vigilancia`. Cada uno vive en
+`.claude/skills/<nombre>/SKILL.md` y documenta su propio rol, entradas,
 tareas, salidas y límites. `/vcf-revision` es el punto de entrada para
-revisar y aprobar en bloque lo que generan los demás.
+revisar y aprobar en bloque lo que generan los demás; `/vcf-drive` y
+`/vcf-calendar-sync` suben a Drive/Calendar lo ya aprobado;
+`/vcf-vigilancia` comprueba si ha cambiado la normativa (a mano o vía la
+ejecución trimestral programada).
 
 ## Reglas fijas (aplican siempre, con o sin comando explícito)
 
@@ -56,8 +60,13 @@ revisar y aprobar en bloque lo que generan los demás.
    número de dos dígitos en vez de incrementarlo. Así, si `ficha.yaml →
    unidades` contiene UT0, UT1, UT2, UT3a, UT3b, UT3c y UT4, la
    correspondencia es UD00, UD01, UD02, UD03a, UD03b, UD03c y UD04.
-5. Las integraciones con Google Drive/Calendar se hacen solo cuando el
-   usuario las pide explícitamente en ese momento — nunca en segundo plano.
+5. Las integraciones con Google Drive/Calendar (`/vcf-drive`,
+   `/vcf-calendar-sync`) se hacen solo cuando el usuario las pide
+   explícitamente en ese momento — nunca en segundo plano. Única
+   excepción explícita: `/vcf-vigilancia` sí corre en segundo plano de
+   forma programada (trimestral, ver `.claude/skills/vcf-vigilancia/`),
+   pero solo lee/compara normativa — nunca escribe en `ficha.yaml` ni en
+   documentos aprobados sin confirmación explícita posterior del docente.
 6. Cada vez que el usuario aprueba un documento, o confirma una migración o
    copia de archivos (p. ej. en `/vcf-auditoria`), se hace un commit de git
    con un mensaje que identifique el documento o la operación.
