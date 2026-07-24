@@ -34,10 +34,11 @@ qué migra a la nueva estructura y qué queda fuera.
    para la búsqueda de referencia de `/vcf-tema` (que solo mira en
    REFERENCIA_HISTORICA) y rompería la separación origen/generado.
 
-   Para TAREA, sí aplica la fecha: VIGENTE si es de 25/26 o del borrador
-   26/27 (se reutilizan tal cual, con ajustes menores de fecha, no hay
-   comando de generación de tareas), REFERENCIA_HISTORICA si es de 24/25
-   o anterior.
+   Para TAREA aplica la misma regla que para TEMARIO desde que existe
+   `/vcf-tarea`: **todo material migrado (de cualquier año, incluido
+   25/26) va siempre a REFERENCIA_HISTORICA**, nunca a VIGENTE.
+   `07_ACTIVIDADES_TAREAS/VIGENTE/` se reserva exclusivamente para lo que
+   `/vcf-tarea` genera de nuevo para 26/27.
 3. Para los archivos de TEMARIO, compara sus temas contra
    `ficha.yaml → contenidos` (si existe) y márcalos como potencialmente
    obsoletos (poco útiles como referencia) si no encuentras
