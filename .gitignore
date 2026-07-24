@@ -3,6 +3,11 @@
 .worktrees/
 /3. VALORACIÓN 25_26/
 
+# Entorno virtual local para generar PowerPoint (python-pptx) — se
+# recrea con: python3 -m venv .venv-recursos && .venv-recursos/bin/pip
+# install python-pptx. Ver .claude/skills/vcf-recursos/SKILL.md.
+.venv-recursos/
+
 # Datos personales de salud/discapacidad de alumnado — nunca a git (ver
 # 10_DIVERSIDAD/INFORMES_ALUMNADO/README.md). Se conserva el README de
 # cada carpeta para documentar su propósito; todo lo demás queda fuera.

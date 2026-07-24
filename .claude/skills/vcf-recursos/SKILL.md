@@ -1,6 +1,6 @@
 ---
 name: vcf-recursos
-description: Genera recursos digitales (presentaciones vía Gamma, paquetes de fuentes preparados para NotebookLM) a partir de las unidades y temario ya generados de VCF. Diseñado para añadir más plataformas en el futuro sin rediseñar nada. Úsalo cuando el usuario pida una presentación, un recurso de NotebookLM, o cualquier material digital derivado de una unidad de VCF.
+description: Genera recursos digitales (presentaciones PowerPoint locales sin límite de cuota, presentaciones vía Gamma para conceptos puntuales, paquetes de fuentes preparados para NotebookLM) a partir de las unidades y temario ya generados de VCF. Diseñado para añadir más plataformas en el futuro sin rediseñar nada. Úsalo cuando el usuario pida una presentación, un recurso de NotebookLM, o cualquier material digital derivado de una unidad de VCF.
 ---
 
 # /vcf-recursos — Recursos digitales (VCF/TSEAS)
@@ -11,6 +11,12 @@ Genera recursos digitales a partir del contenido ya producido (unidades,
 temario) para una o varias plataformas externas. Cada plataforma es una
 subsección independiente de este documento — añadir una plataforma nueva
 no debe requerir tocar las demás.
+
+**Prioridad por defecto para presentaciones:** PowerPoint local (sin
+límite de cuota) es la opción por defecto. Gamma se usa solo cuando el
+docente lo pide explícitamente para un concepto puntual (su
+suscripción actual limita cuántas Gamma puede generar) — nunca se elige
+Gamma automáticamente si no se especifica la plataforma.
 
 ## Entradas
 
@@ -33,9 +39,62 @@ material curricular, no deben cruzarse con datos de alumnado real.
 
 ---
 
-## Plataforma: Gamma (automatizada)
+## Plataforma: PowerPoint local (automatizada, sin límite de cuota — por defecto)
 
-Conector MCP disponible — se puede generar directamente.
+Genera un `.pptx` real en este disco, vía la librería `python-pptx`
+instalada en un entorno virtual propio del proyecto (`.venv-recursos/`,
+fuera de git — ver `.gitignore`). No depende de ningún servicio en la
+nube ni de ninguna suscripción: úsala como opción por defecto salvo que
+el docente pida Gamma explícitamente.
+
+Si `.venv-recursos/` no existe todavía en este equipo, créala primero:
+```
+python3 -m venv .venv-recursos
+.venv-recursos/bin/pip install python-pptx
+```
+
+**El contenido fuente (DOCENTE, unidad) está escrito como texto para
+leer, no como guión de diapositivas** — convertirlo línea a línea
+produce diapositivas fragmentadas e inútiles (ya probado: un documento
+de 4 secciones generó 31 diapositivas ilegibles). El proceso correcto
+tiene dos pasos:
+
+1. **Condensa tú mismo** el contenido de la unidad/tema fuente en un
+   esquema de diapositivas nuevo — un Markdown con un `#` (título de la
+   presentación) y varios `##` (uno por diapositiva), cada uno con 3-6
+   viñetas cortas (no párrafos completos). Esto es una síntesis real,
+   no una extracción mecánica: decide qué es lo esencial de cada
+   sección para una diapositiva, igual que harías al preparar tú mismo
+   una presentación. Guarda este esquema intermedio como
+   `09_RECURSOS_DIGITALES/POWERPOINT/<UD>_esquema.md`.
+2. Convierte ese esquema (no el documento original) a `.pptx` con el
+   script ya preparado:
+   ```
+   .venv-recursos/bin/python .claude/skills/vcf-recursos/scripts/generar_pptx.py \
+     --input "09_RECURSOS_DIGITALES/POWERPOINT/<UD>_esquema.md" \
+     --output "09_RECURSOS_DIGITALES/POWERPOINT/<UD>_presentacion.pptx" \
+     --titulo "<título de la unidad>"
+   ```
+3. Informa al docente de la ruta del `.pptx` generado — puede abrirlo
+   directamente con Microsoft PowerPoint (confirmado instalado en este
+   equipo) para revisarlo, maquetarlo o añadir imágenes.
+
+**Límites de esta plataforma:** el script solo maqueta texto (título +
+viñetas, plantilla por defecto de PowerPoint) — no añade imágenes,
+gráficos ni un tema visual personalizado; eso se hace después a mano en
+PowerPoint si se quiere. La calidad depende enteramente de que el
+esquema intermedio (paso 1) esté bien condensado — no te saltes ese
+paso ni conviertas el documento fuente directamente.
+
+---
+
+## Plataforma: Gamma (automatizada, para conceptos puntuales)
+
+Conector MCP disponible — se puede generar directamente. Úsala solo
+cuando el docente la pida explícitamente (p. ej. "hazme esto en
+Gamma", o para un concepto puntual donde interese su estilo visual
+automático) — no como opción por defecto, porque la suscripción actual
+limita cuántas Gamma se pueden generar.
 
 1. Toma el contenido de la unidad/tema fuente (texto completo, no
    resumido salvo que el usuario pida un resumen).
