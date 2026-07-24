@@ -24,12 +24,24 @@ qué migra a la nueva estructura y qué queda fuera.
 2. Clasifica cada archivo por tipo (TEMARIO si el nombre contiene "TEMA" o
    está en una carpeta de presentaciones/temario; TAREA si el nombre
    contiene "TAREA" o está en `TAREAS_25_26`/`TAEXAMENES_25_26`; PROGRAMACIÓN
-   si está en `o. programación 26_27/`; OTRO en cualquier otro caso) y por
-   antigüedad (VIGENTE si es de 25/26 o del borrador 26/27;
-   REFERENCIA_HISTORICA si es de 24/25 o anterior).
-3. Para los archivos de TEMARIO clasificados VIGENTE, compara sus temas
-   contra `ficha.yaml → contenidos` (si existe) y márcalos como
-   potencialmente obsoletos si no encuentras correspondencia.
+   si está en `o. programación 26_27/`; OTRO en cualquier otro caso).
+
+   Para TEMARIO, la antigüedad no sigue la fecha del archivo: **todo
+   material migrado desde `3. VALORACIÓN 25_26/` (de cualquier año,
+   incluido 25/26) va siempre a REFERENCIA_HISTORICA**, nunca a VIGENTE.
+   `06_TEMARIO/VIGENTE/` se reserva exclusivamente para lo que `/vcf-tema`
+   genera de nuevo para 26/27 — un archivo migrado ahí sería invisible
+   para la búsqueda de referencia de `/vcf-tema` (que solo mira en
+   REFERENCIA_HISTORICA) y rompería la separación origen/generado.
+
+   Para TAREA, sí aplica la fecha: VIGENTE si es de 25/26 o del borrador
+   26/27 (se reutilizan tal cual, con ajustes menores de fecha, no hay
+   comando de generación de tareas), REFERENCIA_HISTORICA si es de 24/25
+   o anterior.
+3. Para los archivos de TEMARIO, compara sus temas contra
+   `ficha.yaml → contenidos` (si existe) y márcalos como potencialmente
+   obsoletos (poco útiles como referencia) si no encuentras
+   correspondencia con ningún RA/contenido vigente.
 4. Presenta una tabla al usuario con columnas: `Origen | Tipo | Clasificación
    | Destino propuesto`. El destino sigue uno de estos patrones:
    - `DEPARTAMENTO_DOCENTE/ASIGNATURAS/VCF_TSEAS/06_TEMARIO/VIGENTE/`
