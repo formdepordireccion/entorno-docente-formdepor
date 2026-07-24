@@ -31,18 +31,36 @@ qué migra a la nueva estructura y qué queda fuera.
    contra `ficha.yaml → contenidos` (si existe) y márcalos como
    potencialmente obsoletos si no encuentras correspondencia.
 4. Presenta una tabla al usuario con columnas: `Origen | Tipo | Clasificación
-   | Destino propuesto`. El destino sigue siempre uno de estos cuatro
-   patrones:
+   | Destino propuesto`. El destino sigue uno de estos patrones:
    - `DEPARTAMENTO_DOCENTE/ASIGNATURAS/VCF_TSEAS/06_TEMARIO/VIGENTE/`
    - `DEPARTAMENTO_DOCENTE/ASIGNATURAS/VCF_TSEAS/06_TEMARIO/REFERENCIA_HISTORICA/`
    - `DEPARTAMENTO_DOCENTE/ASIGNATURAS/VCF_TSEAS/07_ACTIVIDADES_TAREAS/VIGENTE/`
    - `DEPARTAMENTO_DOCENTE/ASIGNATURAS/VCF_TSEAS/07_ACTIVIDADES_TAREAS/REFERENCIA_HISTORICA/`
-5. No copies nada todavía. Espera confirmación explícita del usuario, que
+   - `DEPARTAMENTO_DOCENTE/ASIGNATURAS/VCF_TSEAS/02_PROGRAMACION/REFERENCIA_HISTORICA/`
+     (tipo PROGRAMACIÓN — borradores/programaciones docentes originales,
+     conservados como fuente de datos reales para `/vcf-normativa`)
+   Para archivos de tipo OTRO que no encajen claramente en temario, tareas
+   o programación (material de apoyo general, hojas de cálculo, posibles
+   bases de datos de alumnado, etc.), no propongas destino automático:
+   pregunta al usuario qué hacer, y si el nombre o contenido sugiere datos
+   personales de alumnado (listas, calificaciones, bases de datos), avisa
+   explícitamente antes de proponer nada.
+5. Filtra por formato antes de proponer la copia: los archivos `.key`
+   (Keynote) no se copian nunca por defecto — ni Claude puede leerlos ni
+   suelen aportar valor como referencia versionada, y a menudo son muy
+   pesados. Regístralos solo como referencia (nombre y ubicación) en
+   `migraciones.md`, sin copiarlos. Formatos legibles (`.pdf`, `.docx`,
+   `.pptx`, `.xlsx`, `.md`) sí se proponen para copia, sea cual sea su
+   tamaño — pero si un archivo individual supera claramente el resto del
+   lote (p. ej. varias veces el tamaño típico), señálalo aparte en la
+   tabla en vez de darlo por hecho junto al resto.
+6. No copies nada todavía. Espera confirmación explícita del usuario, que
    puede aprobar la tabla completa o pedir cambios fila por fila.
-6. Tras confirmación, **copia** (nunca muevas ni borres el original) cada
+7. Tras confirmación, **copia** (nunca muevas ni borres el original) cada
    archivo confirmado a su destino, conservando el nombre original.
-7. Añade una entrada a `14_HISTORICO_CAMBIOS/migraciones.md` con la fecha
-   de hoy y la lista de archivos copiados (origen → destino).
+8. Añade una entrada a `14_HISTORICO_CAMBIOS/migraciones.md` con la fecha
+   de hoy y la lista de archivos copiados (origen → destino), incluyendo
+   los `.key` registrados solo como referencia (sin copiar).
 
 ## Salidas
 
