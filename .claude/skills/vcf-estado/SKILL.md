@@ -24,11 +24,12 @@ contenido nuevo, solo informa.
    `normativa.rd_estatal`, `resultados_aprendizaje`, `unidades`).
 2. Recorre cada carpeta numerada de `VCF_TSEAS/` (excluyendo los
    `README.md`) y, por carpeta, indica si tiene contenido generado o está
-   vacía. **Excepción:** `10_DIVERSIDAD/INFORMES_ALUMNADO/` y
-   `10_DIVERSIDAD/PLANES_ADAPTACION/` contienen datos personales de
-   salud/discapacidad — indica solo si tienen contenido o no (vacía/con
-   documentos), nunca nombres de archivo ni ningún detalle de su
-   contenido.
+   vacía. **Excepción:** `10_DIVERSIDAD/INFORMES_ALUMNADO/`,
+   `10_DIVERSIDAD/PLANES_ADAPTACION/` y
+   `11_SEGUIMIENTO_RESULTADOS/CALIFICACIONES/` contienen datos
+   personales de alumnado — indica solo si tienen contenido o no
+   (vacía/con documentos), nunca nombres de archivo ni ningún detalle de
+   su contenido.
 3. Si existe `calendario_26_27.md`, compáralo con la fecha actual y señala
    los hitos (unidades, evaluaciones, entregas) previstos en los próximos
    30 días.

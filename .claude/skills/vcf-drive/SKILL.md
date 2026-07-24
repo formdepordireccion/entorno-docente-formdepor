@@ -61,10 +61,13 @@ avisa explícitamente en vez de subirlo). No borra ni modifica nada que ya
 exista en Drive sin confirmación explícita para ese archivo en concreto.
 No sube el material histórico de `3. VALORACIÓN 25_26/` (eso es contenido
 de referencia interno, no un documento aprobado de la asignatura).
-**Nunca sube nada de `10_DIVERSIDAD/INFORMES_ALUMNADO/` ni de
-`10_DIVERSIDAD/PLANES_ADAPTACION/`** — son datos personales de
-salud/discapacidad de alumnado real, excluidos siempre sin excepción,
-aunque el usuario pida "sube todo".
+**Nunca sube nada de `10_DIVERSIDAD/INFORMES_ALUMNADO/`,
+`10_DIVERSIDAD/PLANES_ADAPTACION/` ni
+`11_SEGUIMIENTO_RESULTADOS/CALIFICACIONES/`** — son datos personales de
+alumnado real (salud/discapacidad, o calificaciones), excluidos siempre
+sin excepción, aunque el usuario pida "sube todo". Los informes
+agregados de `11_SEGUIMIENTO_RESULTADOS/INFORMES/` sí se pueden subir
+como cualquier otro documento aprobado.
 
 ## Validación humana
 

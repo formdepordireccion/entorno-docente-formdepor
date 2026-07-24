@@ -86,9 +86,10 @@ resumen del grupo no cuenta como confirmación válida; siempre hay que
 presentar la tabla primero. Nunca oculta un aviso conocido para que el
 grupo se apruebe más rápido. No inventa que un documento fue revisado en
 detalle si el docente solo confirmó el resumen. **Nunca incluye
-`10_DIVERSIDAD/INFORMES_ALUMNADO/` ni `10_DIVERSIDAD/PLANES_ADAPTACION/`
-en ningún grupo** — esos documentos no tienen ciclo `BORRADOR`/`APROBADO`
-(ver `/vcf-diversidad`), quedan fuera de este comando por completo.
+`10_DIVERSIDAD/INFORMES_ALUMNADO/`, `10_DIVERSIDAD/PLANES_ADAPTACION/`
+ni `11_SEGUIMIENTO_RESULTADOS/CALIFICACIONES/` en ningún grupo** — esos
+documentos no tienen ciclo `BORRADOR`/`APROBADO` (ver `/vcf-diversidad`,
+`/vcf-analitica`), quedan fuera de este comando por completo.
 
 ## Validación humana
 

@@ -31,15 +31,20 @@ para el diseño completo.
 
 `/vcf-estado`, `/vcf-normativa`, `/vcf-auditoria`, `/vcf-programacion`,
 `/vcf-unidad`, `/vcf-tema`, `/vcf-tarea`, `/vcf-examen`, `/vcf-revision`,
-`/vcf-drive`, `/vcf-calendar-sync`, `/vcf-vigilancia`, `/vcf-diversidad`.
-Cada uno vive en `.claude/skills/<nombre>/SKILL.md` y documenta su propio
-rol, entradas, tareas, salidas y límites. `/vcf-revision` es el punto de
-entrada para revisar y aprobar en bloque lo que generan los demás;
-`/vcf-drive` y `/vcf-calendar-sync` suben a Drive/Calendar lo ya
-aprobado; `/vcf-vigilancia` comprueba si ha cambiado la normativa (a
-mano o vía la ejecución trimestral programada); `/vcf-diversidad` es la
-única excepción deliberada a la regla 3 de abajo — trabaja con datos
-reales de alumnado, nunca sale de este disco.
+`/vcf-drive`, `/vcf-calendar-sync`, `/vcf-vigilancia`, `/vcf-diversidad`,
+`/vcf-recursos`, `/vcf-analitica`. Cada uno vive en
+`.claude/skills/<nombre>/SKILL.md` y documenta su propio rol, entradas,
+tareas, salidas y límites. `/vcf-revision` es el punto de entrada para
+revisar y aprobar en bloque lo que generan los demás; `/vcf-drive` y
+`/vcf-calendar-sync` suben a Drive/Calendar lo ya aprobado;
+`/vcf-vigilancia` comprueba si ha cambiado la normativa (a mano o vía la
+ejecución trimestral programada); `/vcf-recursos` genera presentaciones
+(Gamma) y paquetes para NotebookLM, extensible a más plataformas;
+`/vcf-diversidad` y `/vcf-analitica` son las dos excepciones deliberadas
+a la regla 3 de abajo — trabajan con datos reales de alumnado
+(necesidades especiales y calificaciones respectivamente), que nunca
+salen de este disco. `/vcf-analitica` está definido pero no es
+ejecutable todavía: no hay calificaciones reales cargadas.
 
 ## Reglas fijas (aplican siempre, con o sin comando explícito)
 
@@ -50,15 +55,20 @@ reales de alumnado, nunca sale de este disco.
    lo confirme explícitamente.
 3. Nunca se inventan datos personales ni diagnósticos de alumnado —
    especialmente en las secciones de atención a la diversidad genéricas
-   de cada unidad. **Excepción única y deliberada:** `/vcf-diversidad`
-   maneja datos reales (no inventados) de alumnado con necesidades
-   especiales, aportados legítimamente por el docente en
-   `10_DIVERSIDAD/INFORMES_ALUMNADO/`. Esa carpeta y
-   `10_DIVERSIDAD/PLANES_ADAPTACION/` — categoría de datos especialmente
-   protegida (salud/discapacidad) — **nunca salen de este disco local**:
-   excluidas de git (`.gitignore`), de `/vcf-drive`, de
-   `/vcf-calendar-sync`, de `/vcf-revision` y del detalle de
-   `/vcf-estado`, sin excepción, aunque se pida explícitamente "todo".
+   de cada unidad. **Dos excepciones únicas y deliberadas:**
+   `/vcf-diversidad` maneja datos reales (no inventados) de alumnado con
+   necesidades especiales, aportados legítimamente por el docente en
+   `10_DIVERSIDAD/INFORMES_ALUMNADO/`; `/vcf-analitica` maneja
+   calificaciones reales en `11_SEGUIMIENTO_RESULTADOS/CALIFICACIONES/`.
+   Esas tres carpetas (`INFORMES_ALUMNADO/`, `PLANES_ADAPTACION/`,
+   `CALIFICACIONES/`) contienen datos personales de alumnado real y
+   **nunca salen de este disco local**: excluidas de git (`.gitignore`),
+   de `/vcf-drive`, de `/vcf-calendar-sync`, de `/vcf-revision` y del
+   detalle de `/vcf-estado`, sin excepción, aunque se pida explícitamente
+   "todo". Los informes *agregados* que produce `/vcf-analitica` en
+   `11_SEGUIMIENTO_RESULTADOS/INFORMES/` sí son documentos normales
+   (anónimos por diseño: nunca identifican a un alumno o alumna
+   concretos).
 4. Contenido nuevo se escribe en Markdown. Nomenclatura de archivo:
    `ASIGNATURA_TIPO_UD_CURSO_VERSION_ESTADO.ext`
    (ejemplo: `VCF_UNIDAD_UD03_2026-2027_V01_BORRADOR.md`).
