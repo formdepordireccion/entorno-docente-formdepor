@@ -66,6 +66,12 @@ Comprueba, en este orden, y registra cada hallazgo:
 10. **Material nuevo sin auditar**: si `3. VALORACIÓN 25_26/` tiene
     contenido más reciente que la última entrada de
     `14_HISTORICO_CAMBIOS/migraciones.md`, señálalo.
+11. **Recursos digitales ausentes**: para cada unidad `APROBADO`, indica
+    si `09_RECURSOS_DIGITALES/` tiene algo generado para ella (cualquier
+    plataforma). Esto **no es una carencia como la de unidad/temario/
+    examen** — no hay ninguna regla que exija una presentación por
+    unidad — así que se lista solo como sugerencia informativa, nunca
+    como hallazgo a reparar.
 
 ### 2. Auto-remediación (siempre termina en `BORRADOR`)
 
@@ -88,7 +94,11 @@ Para los hallazgos de los puntos 2-6 del barrido:
 ni `/vcf-normativa` (cambiar RA/criterios/horas legales) de forma
 automática — ambos requieren confirmación explícita del docente por
 diseño; este barrido solo los señala como hallazgo, nunca los dispara.
-Tampoco toca nunca `/vcf-diversidad` ni `/vcf-analitica`.
+Tampoco ejecutes nunca `/vcf-recursos` automáticamente — aunque
+PowerPoint local no tiene límite de cuota, generar una presentación
+sigue siendo una decisión del docente para una unidad concreta, no algo
+que deba pasar solo porque falta (punto 11 del barrido: es sugerencia,
+no reparación). Tampoco toca nunca `/vcf-diversidad` ni `/vcf-analitica`.
 
 ### 3. Propuestas de mejora de otras skills (nunca se aplican solas)
 
