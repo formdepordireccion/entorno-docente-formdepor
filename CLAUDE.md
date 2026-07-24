@@ -30,14 +30,16 @@ para el diseño completo.
 ## Comandos disponibles
 
 `/vcf-estado`, `/vcf-normativa`, `/vcf-auditoria`, `/vcf-programacion`,
-`/vcf-unidad`, `/vcf-tema`, `/vcf-examen`, `/vcf-revision`, `/vcf-drive`,
-`/vcf-calendar-sync`, `/vcf-vigilancia`. Cada uno vive en
-`.claude/skills/<nombre>/SKILL.md` y documenta su propio rol, entradas,
-tareas, salidas y límites. `/vcf-revision` es el punto de entrada para
-revisar y aprobar en bloque lo que generan los demás; `/vcf-drive` y
-`/vcf-calendar-sync` suben a Drive/Calendar lo ya aprobado;
-`/vcf-vigilancia` comprueba si ha cambiado la normativa (a mano o vía la
-ejecución trimestral programada).
+`/vcf-unidad`, `/vcf-tema`, `/vcf-tarea`, `/vcf-examen`, `/vcf-revision`,
+`/vcf-drive`, `/vcf-calendar-sync`, `/vcf-vigilancia`, `/vcf-diversidad`.
+Cada uno vive en `.claude/skills/<nombre>/SKILL.md` y documenta su propio
+rol, entradas, tareas, salidas y límites. `/vcf-revision` es el punto de
+entrada para revisar y aprobar en bloque lo que generan los demás;
+`/vcf-drive` y `/vcf-calendar-sync` suben a Drive/Calendar lo ya
+aprobado; `/vcf-vigilancia` comprueba si ha cambiado la normativa (a
+mano o vía la ejecución trimestral programada); `/vcf-diversidad` es la
+única excepción deliberada a la regla 3 de abajo — trabaja con datos
+reales de alumnado, nunca sale de este disco.
 
 ## Reglas fijas (aplican siempre, con o sin comando explícito)
 
@@ -47,7 +49,16 @@ ejecución trimestral programada).
    nombre de archivo. Nada pasa a `aprobado`/`APROBADO` sin que el usuario
    lo confirme explícitamente.
 3. Nunca se inventan datos personales ni diagnósticos de alumnado —
-   especialmente en las secciones de atención a la diversidad.
+   especialmente en las secciones de atención a la diversidad genéricas
+   de cada unidad. **Excepción única y deliberada:** `/vcf-diversidad`
+   maneja datos reales (no inventados) de alumnado con necesidades
+   especiales, aportados legítimamente por el docente en
+   `10_DIVERSIDAD/INFORMES_ALUMNADO/`. Esa carpeta y
+   `10_DIVERSIDAD/PLANES_ADAPTACION/` — categoría de datos especialmente
+   protegida (salud/discapacidad) — **nunca salen de este disco local**:
+   excluidas de git (`.gitignore`), de `/vcf-drive`, de
+   `/vcf-calendar-sync`, de `/vcf-revision` y del detalle de
+   `/vcf-estado`, sin excepción, aunque se pida explícitamente "todo".
 4. Contenido nuevo se escribe en Markdown. Nomenclatura de archivo:
    `ASIGNATURA_TIPO_UD_CURSO_VERSION_ESTADO.ext`
    (ejemplo: `VCF_UNIDAD_UD03_2026-2027_V01_BORRADOR.md`).

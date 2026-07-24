@@ -14,7 +14,8 @@ en el proyecto VCF/TSEAS, agrupado por tipo de documento, y aprueba
 ## Entradas
 
 - Archivos con `BORRADOR` en el nombre bajo `05_UNIDADES/`,
-  `06_TEMARIO/VIGENTE/` y `08_EVALUACION/`.
+  `06_TEMARIO/VIGENTE/`, `07_ACTIVIDADES_TAREAS/VIGENTE/` y
+  `08_EVALUACION/`.
 - Los 4 documentos base, que no usan `BORRADOR` en el nombre de archivo
   (para no romper las rutas fijas que otros comandos leen) sino un
   marcador `**Estado:** BORRADOR` en su cabecera:
@@ -31,7 +32,10 @@ en el proyecto VCF/TSEAS, agrupado por tipo de documento, y aprueba
       calendario)
    2. **Unidades didácticas** (`05_UNIDADES/`)
    3. **Temario** (`06_TEMARIO/VIGENTE/`)
-   4. **Evaluación** (`08_EVALUACION/`, exámenes y solucionarios)
+   4. **Actividades y tareas** (`07_ACTIVIDADES_TAREAS/VIGENTE/`, solo lo
+      generado por `/vcf-tarea` — no el material migrado por
+      `/vcf-auditoria`, que no lleva `BORRADOR`/`APROBADO`)
+   5. **Evaluación** (`08_EVALUACION/`, exámenes y solucionarios)
 2. Para cada grupo, presenta una tabla compacta: archivo | resumen de una
    línea (de qué trata, qué RA/unidad cubre) | avisos conocidos. Los
    avisos se sacan del propio documento (marcas `[NUEVO]`, notas de "no
@@ -59,7 +63,7 @@ en el proyecto VCF/TSEAS, agrupado por tipo de documento, y aprueba
    `estado: aprobado`. No toques fechas, RA ni ningún otro campo de esa
    entrada ni de las demás.
 7. Si tras esta revisión TODO queda aprobado (los 4 documentos base, las
-   7 unidades y todo su temario/examen), pregunta explícitamente al
+   7 unidades y todo su temario/tareas/examen), pregunta explícitamente al
    docente si quiere marcar también `ficha.yaml → estado: aprobado` a
    nivel de asignatura. Nunca lo cambies sin que lo pida de forma
    explícita para ese campo en concreto.
