@@ -14,7 +14,8 @@ en el proyecto VCF/TSEAS, agrupado por tipo de documento, y aprueba
 ## Entradas
 
 - Archivos con `BORRADOR` en el nombre bajo `05_UNIDADES/`,
-  `06_TEMARIO/VIGENTE/`, `07_ACTIVIDADES_TAREAS/VIGENTE/` y
+  `06_TEMARIO/VIGENTE/`, `07_ACTIVIDADES_TAREAS/VIGENTE/` (recorre sus 11
+  subcarpetas por tipo de actividad — ver `/vcf-tarea`) y
   `08_EVALUACION/`.
 - Los 4 documentos base, que no usan `BORRADOR` en el nombre de archivo
   (para no romper las rutas fijas que otros comandos leen) sino un
@@ -34,7 +35,9 @@ en el proyecto VCF/TSEAS, agrupado por tipo de documento, y aprueba
    3. **Temario** (`06_TEMARIO/VIGENTE/`)
    4. **Actividades y tareas** (`07_ACTIVIDADES_TAREAS/VIGENTE/`, solo lo
       generado por `/vcf-tarea` — no el material migrado por
-      `/vcf-auditoria`, que no lleva `BORRADOR`/`APROBADO`)
+      `/vcf-auditoria`, que no lleva `BORRADOR`/`APROBADO`; dentro del
+      grupo, agrupa además por subcarpeta/categoría de actividad para
+      que la tabla sea legible)
    5. **Evaluación** (`08_EVALUACION/`, exámenes y solucionarios)
 2. Para cada grupo, presenta una tabla compacta: archivo | resumen de una
    línea (de qué trata, qué RA/unidad cubre) | avisos conocidos. Los
