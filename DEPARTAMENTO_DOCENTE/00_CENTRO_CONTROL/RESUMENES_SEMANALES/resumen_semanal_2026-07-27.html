@@ -1,0 +1,277 @@
+<title>VCF · Resumen semanal — 27 jul a 3 ago</title>
+<style>
+  :root {
+    --azul-noche: #14142d;
+    --azul-noche-suave: #1d1d40;
+    --azul-formacion: #185adb;
+    --blanco-humo: #f6f8fb;
+    --tarjeta: #ffffff;
+    --borde: #e3e7ef;
+    --gris-texto: #6b7280;
+    --negro-suave: #1f2937;
+    --blanco: #ffffff;
+    --urgente: #c8433f;
+    --al-dia: #23935f;
+    --sombra: 0 1px 2px rgba(20, 20, 45, 0.06), 0 8px 24px -12px rgba(20, 20, 45, 0.18);
+  }
+
+  :root[data-theme="dark"] {
+    --blanco-humo: #0f0f24;
+    --tarjeta: #181834;
+    --borde: #2a2a4d;
+    --gris-texto: #9297ab;
+    --negro-suave: #e7e9f2;
+    --al-dia: #3ecf8e;
+    --urgente: #ef6b64;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --blanco-humo: #0f0f24;
+      --tarjeta: #181834;
+      --borde: #2a2a4d;
+      --gris-texto: #9297ab;
+      --negro-suave: #e7e9f2;
+      --al-dia: #3ecf8e;
+      --urgente: #ef6b64;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--blanco-humo);
+    color: var(--negro-suave);
+    font-family: "Aptos", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+  }
+
+  .pagina {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 20px 64px;
+  }
+
+  header.cabecera {
+    background: var(--azul-noche);
+    color: var(--blanco);
+    margin: 0 -20px 28px;
+    padding: 40px 20px 32px;
+  }
+
+  .cabecera-inner {
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    color: #aab4e0;
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+
+  h1 {
+    font-family: "Aptos Display", "Aptos", ui-sans-serif, system-ui, sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 650;
+    margin: 0 0 8px;
+    text-wrap: balance;
+  }
+
+  .rango-fechas {
+    color: #cdd4f0;
+    font-size: 0.98rem;
+    margin: 0;
+  }
+
+  .banner-al-dia {
+    margin-top: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(62, 207, 142, 0.14);
+    border: 1px solid rgba(62, 207, 142, 0.4);
+    color: #7fe6b8;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+
+  .banner-al-dia .punto {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--al-dia);
+    flex: none;
+  }
+
+  main {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 720px) {
+    main.multi { grid-template-columns: 1fr 1fr; }
+  }
+
+  .tarjeta-asignatura {
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: 16px;
+    box-shadow: var(--sombra);
+    padding: 24px 24px 20px;
+  }
+
+  .asignatura-titulo {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+
+  .asignatura-titulo h2 {
+    font-family: "Aptos Display", "Aptos", sans-serif;
+    font-size: 1.2rem;
+    font-weight: 650;
+    margin: 0;
+    color: var(--negro-suave);
+  }
+
+  .asignatura-ciclo {
+    color: var(--gris-texto);
+    font-size: 0.86rem;
+    margin: 0 0 18px;
+  }
+
+  .subbloque {
+    margin-top: 16px;
+  }
+
+  .subbloque h3 {
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 700;
+    color: var(--gris-texto);
+    margin: 0 0 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .linea-al-dia {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--al-dia);
+    font-size: 0.92rem;
+    font-weight: 600;
+    padding: 4px 0;
+  }
+
+  .linea-al-dia::before {
+    content: "✓";
+    font-weight: 700;
+  }
+
+  .item {
+    display: flex;
+    gap: 10px;
+    padding: 7px 0;
+    align-items: flex-start;
+  }
+
+  .item .estado {
+    flex: none;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .item.pendiente .estado { color: var(--urgente); }
+  .item.hecho .estado { color: var(--al-dia); }
+
+  .item .texto { font-size: 0.94rem; }
+  .item .comando {
+    display: block;
+    color: var(--gris-texto);
+    font-size: 0.82rem;
+    margin-top: 1px;
+  }
+
+  footer {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--borde);
+    color: var(--gris-texto);
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+
+  footer strong { color: var(--negro-suave); }
+</style>
+
+<div class="pagina">
+  <header class="cabecera">
+    <div class="cabecera-inner">
+      <p class="eyebrow">VCF/TSEAS · Formdepor</p>
+      <h1>Resumen semanal — 27 de julio al 3 de agosto de 2026</h1>
+      <p class="rango-fechas">Generado el 27 de julio de 2026 · próximo aviso: domingo 2 de agosto</p>
+      <div class="banner-al-dia">
+        <span class="punto"></span>
+        Todo al día: sin urgencias en las próximas dos semanas, en ninguna asignatura.
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="tarjeta-asignatura">
+      <div class="asignatura-titulo">
+        <h2>Valoración de la Condición Física (VCF)</h2>
+      </div>
+      <p class="asignatura-ciclo">Técnico Superior en Enseñanza y Animación Sociodeportiva (TSEAS) · curso 2026-2027</p>
+
+      <div class="subbloque">
+        <h3>Esta semana · 27 jul – 3 ago</h3>
+        <p class="linea-al-dia">Sin pendientes: ninguna unidad empieza ni hay huecos de contenido en esta ventana.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>La semana que viene · 3 – 10 ago</h3>
+        <p class="linea-al-dia">Sin pendientes en esta ventana tampoco.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>De un vistazo</h3>
+        <p class="item hecho" style="padding:4px 0;">
+          <span class="estado">✓</span>
+          <span class="texto">Las 7 unidades del curso (UT0–UT4) ya tienen unidad, temario completo, tarea y examen generados.</span>
+        </p>
+        <p class="item hecho" style="padding:4px 0;">
+          <span class="estado">✓</span>
+          <span class="texto">Sin borradores estancados (ninguno lleva más de 30 días sin tocar).</span>
+        </p>
+        <p class="item pendiente" style="padding:4px 0;">
+          <span class="estado">○</span>
+          <span class="texto">Próximo hito real: UT0 empieza el 10 de septiembre de 2026 — fuera de esta ventana de 14 días, se avisará más cerca.</span>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Cómo leer este resumen:</strong> las marcas se recalculan solo
+    comprobando si el archivo esperado ya existe en el repositorio en el
+    momento de generar esta página — no hay ninguna casilla que se pueda
+    marcar a mano y quede guardada; es una página estática. Si algo sigue
+    apareciendo como pendiente la semana que viene, es porque el archivo
+    correspondiente sigue sin generarse. Generado automáticamente por
+    <code>/vcf-estado</code> (modo resumen semanal) a partir del
+    recordatorio de Google Calendar del 27 de julio de 2026.
+  </footer>
+</div>

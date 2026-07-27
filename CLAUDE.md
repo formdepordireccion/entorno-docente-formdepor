@@ -51,6 +51,14 @@ regenerar contenido en `BORRADOR`, propone (sin aplicar) mejoras a
 otras skills, y deja un borrador de email si hay hallazgos — se ejecuta
 en local (nunca en la nube, porque necesita escribir en el
 repositorio), recordado cada 15 días por un evento de Google Calendar.
+`/vcf-estado` añade un modo de resumen semanal con el mismo patrón:
+recordado por un evento semanal de Google Calendar (el docente sigue
+disparándolo él mismo desde ahí, no hay ejecución en la nube por su
+cuenta), recorre todas las asignaturas de `ASIGNATURAS/` y publica un
+artefacto HTML con lo pendiente de cada una esa semana — casillas
+calculadas solo a partir de si el archivo correspondiente ya existe,
+nunca marcadas a mano — y deja un borrador en Gmail con el enlace, sin
+enviarlo nunca.
 
 ## Reglas fijas (aplican siempre, con o sin comando explícito)
 
