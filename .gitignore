@@ -5,7 +5,7 @@
 
 # Entorno virtual local para generar PowerPoint (python-pptx) — se
 # recrea con: python3 -m venv .venv-recursos && .venv-recursos/bin/pip
-# install python-pptx. Ver .claude/skills/vcf-recursos/SKILL.md.
+# install python-pptx. Ver .claude/skills/asig-recursos/SKILL.md.
 .venv-recursos/
 
 # Datos personales de salud/discapacidad de alumnado — nunca a git (ver

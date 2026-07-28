@@ -18,10 +18,12 @@ no lectivos de Extremadura.
   Si estos campos están vacíos, avisa al usuario de que conviene ejecutar
   `/asig-normativa` antes, pero puedes continuar con lo que el usuario te
   dé directamente si insiste.
-- `3. VALORACIÓN 25_26/o. programación 26_27/1.Modulo Profesional
-  Valoracion de la CF_Mario_Curso 2026-2027.md` (borrador ya existente,
-  nombre real del archivo sin tildes; hay también un `.docx` homólogo con
-  tildes en la misma carpeta).
+- El borrador de programación 26/27 de la asignatura resuelta, en su
+  carpeta histórica del proyecto (p. ej. `3. VALORACIÓN 25_26/o.
+  programación 26_27/1.Modulo Profesional Valoracion de la CF_Mario_Curso
+  2026-2027.md` para VCF; `3. METODOLOGÍA 25_26/1.Modulo_Profesional_
+  Metodologia_Mario_Curso_2026-2027_programación.md` para MET), si
+  existe.
 - Calendario escolar oficial de Extremadura 2026-2027 (festivos, no
   lectivos), buscado con WebSearch en la web de la Consejería de Educación
   de Extremadura si no lo aporta el usuario.
