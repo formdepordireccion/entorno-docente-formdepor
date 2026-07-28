@@ -59,8 +59,10 @@ Solo sube documentos con `APROBADO` — nunca sube un `BORRADOR`, aunque el
 usuario no se dé cuenta de que algo sigue sin aprobar (si lo pide, se le
 avisa explícitamente en vez de subirlo). No borra ni modifica nada que ya
 exista en Drive sin confirmación explícita para ese archivo en concreto.
-No sube el material histórico de `3. VALORACIÓN 25_26/` (eso es contenido
-de referencia interno, no un documento aprobado de la asignatura).
+No sube el material histórico de la carpeta correspondiente en la raíz del
+proyecto (p. ej. `3. VALORACIÓN 25_26/` para VCF, `3. METODOLOGÍA 25_26/`
+para MET — eso es contenido de referencia interno, no un documento aprobado
+de la asignatura).
 **Nunca sube nada de `10_DIVERSIDAD/INFORMES_ALUMNADO/`,
 `10_DIVERSIDAD/PLANES_ADAPTACION/` ni
 `11_SEGUIMIENTO_RESULTADOS/CALIFICACIONES/`** — son datos personales de
