@@ -1,6 +1,6 @@
 ---
 name: asig-revision
-description: Revisa rápidamente todos los documentos de la asignatura resuelta que están en BORRADOR, agrupados por tipo (documentos base, unidades didácticas, temario, evaluación), y aprueba (renombra a APROBADO o actualiza el marcador de estado) los que el docente confirme explícitamente. Úsalo cuando el usuario quiera revisar, aprobar, o pasar a APROBADO los borradores de una asignatura.
+description: Revisa rápidamente todos los documentos de la asignatura resuelta que están en BORRADOR, agrupados por tipo (documentos base, unidades didácticas, temario, actividades y tareas, evaluación, recursos digitales), y aprueba (renombra a APROBADO o actualiza el marcador de estado) los que el docente confirme explícitamente. Úsalo cuando el usuario quiera revisar, aprobar, o pasar a APROBADO los borradores de una asignatura.
 ---
 
 # /asig-revision — Revisión y aprobación de documentos
@@ -29,6 +29,12 @@ especifica ninguna y hay más de una, pregúntale cuál.
   - `02_PROGRAMACION/programacion_26_27.md`
   - `04_TEMPORALIZACION/calendario_26_27.md`
 - `ficha.yaml` (estado global y estado de cada unidad en `unidades`).
+- Archivos con `BORRADOR` en el nombre bajo `09_RECURSOS_DIGITALES/`
+  (recorre sus 6 subcarpetas por tipo de recurso — ver
+  `/asig-recursos`). Los `.html` de esquemas/infografías/fichas
+  interactivas y los `.pptx`/`.md` de presentaciones también llevan
+  `BORRADOR`/`APROBADO` en el nombre, igual que el resto de "la
+  fábrica".
 
 ## Tareas
 
@@ -43,6 +49,11 @@ especifica ninguna y hay más de una, pregúntale cuál.
       grupo, agrupa además por subcarpeta/categoría de actividad para
       que la tabla sea legible)
    5. **Evaluación** (`08_EVALUACION/`, exámenes y solucionarios)
+   6. **Recursos digitales** (`09_RECURSOS_DIGITALES/`, solo lo
+      generado por `/asig-recursos`; agrupa además por subcarpeta/tipo
+      de recurso — presentaciones, esquemas, infografías, fichas
+      interactivas, material de aula virtual, actividades gamificadas
+      — para que la tabla sea legible)
 2. Para cada grupo, presenta una tabla compacta: archivo | resumen de una
    línea (de qué trata, qué RA/unidad cubre) | avisos conocidos. Los
    avisos se sacan del propio documento (marcas `[NUEVO]`, notas de "no
@@ -70,8 +81,8 @@ especifica ninguna y hay más de una, pregúntale cuál.
    `estado: aprobado`. No toques fechas, RA ni ningún otro campo de esa
    entrada ni de las demás.
 7. Si tras esta revisión TODO queda aprobado (los 4 documentos base,
-   todas las unidades y todo su temario/tareas/examen), pregunta
-   explícitamente al docente si quiere marcar también
+   todas las unidades y todo su temario/tareas/examen/recursos
+   digitales), pregunta explícitamente al docente si quiere marcar también
    `ficha.yaml → estado: aprobado` a nivel de asignatura. Nunca lo
    cambies sin que lo pida de forma explícita para ese campo en
    concreto.
