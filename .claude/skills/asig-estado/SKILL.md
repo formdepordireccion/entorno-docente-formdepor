@@ -141,27 +141,32 @@ salida.
    como registro histórico y no se pise el de la semana anterior.
 6. **Borrador de Gmail:** crea un borrador (nunca lo envíes) a
    `formdepor.direccion@gmail.com` con `mcp__claude_ai_Gmail__create_draft`:
-   asunto `VCF · Resumen semanal — semana del <DD/MM> al <DD/MM>`,
-   cuerpo con un resumen breve en texto de lo más urgente por
-   asignatura y el enlace al artefacto publicado. El docente lo revisa
-   y lo envía él mismo (o simplemente lo lee) desde Gmail.
+   asunto `Resumen semanal · Formdepor — semana del <DD/MM> al <DD/MM>`
+   (mismo título de departamento que la cabecera del artefacto HTML, ver
+   `reference/plantilla_resumen_semanal.md` — nunca nombra una
+   asignatura concreta, porque el barrido siempre cubre todas), cuerpo
+   con un resumen breve en texto de lo más urgente por asignatura y el
+   enlace al artefacto publicado. El docente lo revisa y lo envía él
+   mismo (o simplemente lo lee) desde Gmail.
 7. Si el barrido no encuentra nada urgente en los próximos 14 días para
    ninguna asignatura, genera igualmente el artefacto (para que el
    docente vea que se comprobó y está todo al día) pero dilo en una
    frase destacada en la propia página, y en el asunto del borrador
    añade "— sin urgencias".
 
-**Nota sobre el nombre "VCF" en el evento y el asunto del correo:** el
-evento de Calendar y la plantilla de asunto del borrador de Gmail de
-este modo se crearon con el literal "VCF · Resumen semanal" cuando VCF
-era la única asignatura del repositorio. Este modo ya recorre todas las
-asignaturas (paso 2), pero renombrar el evento real de Calendar excede
-el alcance de esta skill: por la regla 5 de CLAUDE.md, las integraciones
-con Calendar solo se tocan cuando el usuario las pide explícitamente en
-ese momento (vía `/asig-calendar-sync`), nunca en segundo plano ni como
-efecto colateral de otra tarea. Si el docente quiere un nombre neutro
-("Resumen semanal" a secas) para el evento y el asunto, dilo
-explícitamente y actualízalo entonces.
+**Nota sobre el nombre "VCF" en el evento de Calendar:** el evento de
+Calendar de este modo se creó con el literal "VCF · Resumen semanal"
+cuando VCF era la única asignatura del repositorio. Este modo ya recorre
+todas las asignaturas (paso 2), pero renombrar el evento real de
+Calendar excede el alcance de esta skill: por la regla 5 de CLAUDE.md,
+las integraciones con Calendar solo se tocan cuando el usuario las pide
+explícitamente en ese momento (vía `/asig-calendar-sync`), nunca en
+segundo plano ni como efecto colateral de otra tarea. Si el docente
+quiere un nombre neutro ("Resumen semanal" a secas) para el evento, dilo
+explícitamente y actualízalo entonces. Esto no afecta al asunto del
+borrador de Gmail (paso 6): ese es contenido generado de nuevo cada
+semana, no un artefacto externo fijo, así que ya usa directamente el
+título de departamento sin necesitar esta misma justificación.
 
 ## Salidas
 
