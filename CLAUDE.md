@@ -134,7 +134,7 @@ nunca.
    pero solo lee/compara normativa — nunca escribe en `ficha.yaml` ni en
    documentos aprobados sin confirmación explícita posterior del docente.
 6. Cada vez que el usuario aprueba un documento, o confirma una migración o
-   copia de archivos (p. ej. en `/vcf-auditoria`), se hace un commit de git
+   copia de archivos (p. ej. en `/asig-auditoria`), se hace un commit de git
    con un mensaje que identifique el documento o la operación.
 7. Si una norma, fecha o dato no se puede verificar con una fuente real, se
    dice explícitamente en vez de inventarlo.
