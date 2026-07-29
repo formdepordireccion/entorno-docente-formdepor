@@ -1,0 +1,529 @@
+<meta charset="utf-8">
+<title>{{TITULO_PAGINA}}</title>
+<style>
+  :root{
+    --azul-noche:#14142d; --azul-noche-2:#1d1d40;
+    --blanco-humo:#f6f8fb; --tarjeta:#ffffff; --borde:#e3e7ef;
+    --gris-texto:#6b7280; --negro-suave:#1f2937; --blanco:#ffffff;
+    --azul-formacion:#185adb;
+    --festivo:#c8433f; --evaluacion:#d9a404; --recuperacion:#c8703f; --final:#14142d;
+    --sombra:0 1px 2px rgba(20,20,45,.06),0 10px 28px -14px rgba(20,20,45,.22);
+    --radio:14px;
+  }
+  :root[data-theme="dark"]{
+    --blanco-humo:#0f0f24; --tarjeta:#181834; --borde:#2a2a4d;
+    --gris-texto:#9297ab; --negro-suave:#e7e9f2;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --blanco-humo:#0f0f24; --tarjeta:#181834; --borde:#2a2a4d;
+      --gris-texto:#9297ab; --negro-suave:#e7e9f2;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--blanco-humo); color:var(--negro-suave);
+    font-family:"Aptos",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    line-height:1.5;
+  }
+  .pagina{max-width:1180px;margin:0 auto;padding:0 20px 64px;}
+  header.cabecera{
+    background:var(--azul-noche); color:var(--blanco);
+    margin:0 -20px 22px; padding:32px 20px 26px;
+  }
+  .cabecera-inner{max-width:1140px;margin:0 auto;}
+  .eyebrow{
+    text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;
+    color:#aab4e0;font-weight:600;margin:0 0 8px;display:flex;gap:10px;align-items:center;
+  }
+  .badge-borrador{
+    background:rgba(217,164,4,.18); border:1px solid rgba(217,164,4,.5);
+    color:#f2c94c; padding:2px 8px; border-radius:6px; font-weight:700; letter-spacing:.04em;
+  }
+  h1{
+    font-family:"Aptos Display","Aptos",sans-serif; font-size:clamp(1.5rem,2.6vw,1.95rem);
+    font-weight:650; margin:0 0 6px; text-wrap:balance;
+  }
+  .subtitulo{color:#cdd4f0;font-size:.95rem;margin:0 0 20px;}
+
+  .resumen-tri{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:20px;}
+  .tri-card{
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14);
+    border-radius:10px; padding:10px 14px;
+  }
+  .tri-card .n{font-family:"Aptos Display","Aptos",sans-serif;font-size:1.4rem;font-weight:700;font-variant-numeric:tabular-nums;}
+  .tri-card .l{font-size:.74rem;color:#c3cbe8;text-transform:uppercase;letter-spacing:.05em;}
+
+  .ribbon-wrap{margin-top:4px;}
+  .ribbon-label{font-size:.72rem;color:#aab4e0;text-transform:uppercase;letter-spacing:.06em;margin:0 0 6px;}
+  .ribbon{
+    position:relative; display:flex; height:34px; border-radius:8px; overflow:visible;
+    background:rgba(255,255,255,.06);
+  }
+  .ribbon-seg{height:100%;cursor:pointer;transition:filter .15s;border-right:1px solid rgba(20,20,45,.35);}
+  .ribbon-seg:last-child{border-right:none;}
+  .ribbon-seg:hover{filter:brightness(1.12);}
+  .ribbon-seg.gap{background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 6px,rgba(255,255,255,.1) 6px 12px);cursor:default;}
+  .ribbon-marker{
+    position:absolute; top:-7px; width:14px; height:14px; transform:translateX(-50%) rotate(45deg);
+    background:var(--evaluacion); border:2px solid var(--azul-noche); border-radius:3px; cursor:pointer;
+  }
+
+  main.layout{display:grid;grid-template-columns:1fr;gap:20px;}
+  @media (min-width:960px){ main.layout{grid-template-columns:1fr 340px;align-items:start;} }
+
+  .panel-calendario{background:var(--tarjeta);border:1px solid var(--borde);border-radius:var(--radio);box-shadow:var(--sombra);padding:18px 20px 22px;}
+
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .nav-mes{display:flex;align-items:center;gap:8px;}
+  .nav-mes button{
+    border:1px solid var(--borde); background:var(--blanco-humo); color:var(--negro-suave);
+    width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:1rem;line-height:1;
+  }
+  .nav-mes button:hover{background:var(--azul-formacion);color:#fff;border-color:var(--azul-formacion);}
+  .nav-mes select{
+    font-family:inherit;font-size:.95rem;font-weight:650;border:1px solid var(--borde);
+    border-radius:8px;padding:6px 10px;background:var(--tarjeta);color:var(--negro-suave);cursor:pointer;
+  }
+  .acciones-toolbar{display:flex;gap:8px;flex-wrap:wrap;}
+  .btn-chip{
+    font-family:inherit; font-size:.8rem; font-weight:600; border:1px solid var(--borde);
+    background:var(--blanco-humo); color:var(--gris-texto); padding:6px 11px; border-radius:20px; cursor:pointer;
+  }
+  .btn-chip:hover{border-color:var(--azul-formacion);color:var(--azul-formacion);}
+
+  .grid-semana{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:4px;}
+  .grid-semana .dow{text-align:center;font-size:.72rem;font-weight:700;color:var(--gris-texto);text-transform:uppercase;letter-spacing:.04em;padding-bottom:4px;}
+  .grid-dias{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+  .celda{
+    position:relative; min-height:64px; border-radius:9px; border:1px solid var(--borde);
+    padding:6px 6px; cursor:default; background:var(--blanco-humo); font-size:.72rem;
+    display:flex; flex-direction:column; gap:4px;
+  }
+  .celda.vacia{visibility:hidden;}
+  .celda .num{font-weight:700;font-variant-numeric:tabular-nums;font-size:.78rem;}
+  .celda.con-dato{cursor:pointer;}
+  .celda.con-dato:hover{outline:2px solid var(--azul-formacion);outline-offset:-2px;}
+  .celda.seleccionada{outline:2.5px solid var(--negro-suave);outline-offset:-2px;}
+  .celda .etq{font-size:.64rem;font-weight:600;line-height:1.2;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+  .celda.dim{opacity:.28;}
+  .celda .sesion-n{position:absolute;top:5px;right:7px;font-size:.6rem;font-weight:700;opacity:.75;font-variant-numeric:tabular-nums;}
+
+  .leyenda{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px;padding-top:14px;border-top:1px solid var(--borde);}
+  .chip-leyenda{
+    display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:600;
+    border:1px solid var(--borde);border-radius:20px;padding:4px 10px 4px 6px;cursor:pointer;
+    background:var(--tarjeta);color:var(--negro-suave);
+  }
+  .chip-leyenda .punto{width:10px;height:10px;border-radius:50%;flex:none;}
+  .chip-leyenda.activo{border-color:var(--negro-suave);background:var(--blanco-humo);}
+  .chip-leyenda.inactivo-filtro{opacity:.4;}
+
+  .panel-detalle{background:var(--tarjeta);border:1px solid var(--borde);border-radius:var(--radio);box-shadow:var(--sombra);padding:20px;position:sticky;top:20px;max-height:calc(100vh - 40px);overflow-y:auto;}
+  .panel-detalle h2{font-family:"Aptos Display","Aptos",sans-serif;font-size:1.05rem;font-weight:650;margin:0 0 4px;}
+  .panel-detalle .fecha-larga{font-size:.8rem;color:var(--gris-texto);margin:0 0 14px;font-variant-numeric:tabular-nums;}
+  .volver{background:none;border:none;color:var(--azul-formacion);font-size:.8rem;font-weight:600;cursor:pointer;padding:0 0 12px;display:none;}
+  .volver.visible{display:inline-block;}
+  .etiqueta-tipo{display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:3px 9px;border-radius:6px;margin-bottom:10px;}
+  .bloque-ra{border:1px solid var(--borde);border-radius:10px;padding:10px 12px;margin-bottom:8px;}
+  .bloque-ra .ra-id{font-weight:700;font-size:.78rem;color:var(--azul-formacion);}
+  .bloque-ra .ra-bloque{font-size:.72rem;color:var(--gris-texto);margin:2px 0 4px;font-weight:600;}
+  .bloque-ra .ra-texto{font-size:.82rem;}
+  .lista-materiales{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .lista-materiales li{display:flex;align-items:baseline;gap:7px;font-size:.82rem;}
+  .lista-materiales .ok{color:#23935f;font-weight:700;}
+  .lista-materiales .no{color:var(--gris-texto);font-weight:700;}
+  .nota-panel{font-size:.78rem;color:var(--gris-texto);margin-top:12px;padding-top:10px;border-top:1px dashed var(--borde);}
+  .cards-resumen{display:flex;flex-direction:column;gap:10px;margin-top:6px;}
+  .card-resumen{border:1px solid var(--borde);border-radius:10px;padding:10px 12px;}
+  .card-resumen .t{font-size:.72rem;color:var(--gris-texto);text-transform:uppercase;letter-spacing:.05em;font-weight:700;}
+  .card-resumen .v{font-family:"Aptos Display","Aptos",sans-serif;font-size:1.3rem;font-weight:700;font-variant-numeric:tabular-nums;}
+
+  footer{margin-top:26px;padding-top:18px;border-top:1px solid var(--borde);color:var(--gris-texto);font-size:.8rem;line-height:1.65;}
+  footer strong{color:var(--negro-suave);}
+  code{background:var(--borde);padding:1px 5px;border-radius:4px;font-size:.85em;}
+</style>
+
+<div class="pagina">
+  <header class="cabecera">
+    <div class="cabecera-inner">
+      <p class="eyebrow">{{EYEBROW}} <span class="badge-borrador">{{ESTADO_BADGE}}</span></p>
+      <h1>Calendario visual del curso {{CURSO_ACADEMICO}}</h1>
+      <p class="subtitulo">{{SUBTITULO}}</p>
+
+      <div class="resumen-tri" id="resumenTrimestres"></div>
+
+      <div class="ribbon-wrap">
+        <p class="ribbon-label">El curso de un vistazo · {{RANGO_CURSO_LARGO}}</p>
+        <div class="ribbon" id="ribbon"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel-calendario">
+      <div class="toolbar">
+        <div class="nav-mes">
+          <button id="btnPrev" aria-label="Mes anterior">‹</button>
+          <select id="selectMes"></select>
+          <button id="btnNext" aria-label="Mes siguiente">›</button>
+        </div>
+        <div class="acciones-toolbar">
+          {{BOTONES_TRIMESTRE}}
+          <button class="btn-chip" id="btnHoy">Ir a hoy</button>
+        </div>
+      </div>
+
+      <div class="grid-semana" id="cabeceraSemana"></div>
+      <div class="grid-dias" id="gridDias"></div>
+
+      <div class="leyenda" id="leyenda"></div>
+    </section>
+
+    <aside class="panel-detalle" id="panelDetalle"></aside>
+  </main>
+
+  <footer>
+    {{FOOTER_HTML}}
+  </footer>
+</div>
+
+<script>
+const DATA = {{DATA_JSON}};
+
+const UNIT_COLOR = {{UNIT_COLOR_JSON}};
+const TIPO_COLOR = { evaluacion:"#d9a404", recuperacion:"#c8703f", final:"#14142d", festivo:"#c8433f" };
+const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+const DOW = ["L","M","X","J","V","S","D"];
+
+const dayMap = new Map(DATA.dias.map(d=>[d.fecha,d]));
+const unidadMap = new Map(DATA.unidades.map(u=>[u.id,u]));
+
+function parseISO(s){ const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
+function toISO(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function addDays(d,n){ const r=new Date(d); r.setDate(r.getDate()+n); return r; }
+function diffDays(a,b){ return Math.round((b-a)/86400000); }
+function hexToRgb(hex){ const n=parseInt(hex.slice(1),16); return {r:(n>>16)&255,g:(n>>8)&255,b:n&255}; }
+function textColorFor(hex){ const {r,g,b}=hexToRgb(hex); const lum=(0.299*r+0.587*g+0.114*b)/255; return lum>0.62 ? '#14142d' : '#ffffff'; }
+function fechaCorta(iso){ return iso.split('-').reverse().join('/'); }
+
+function colorForDay(day){
+  if(!day) return null;
+  if(day.tipo==='unidad') return UNIT_COLOR[day.bloqueId];
+  if(TIPO_COLOR[day.tipo]) return TIPO_COLOR[day.tipo];
+  return null;
+}
+
+// --- meses disponibles: desde el mes de inicio hasta el mes de fin del curso ---
+const MESES_RANGO = [];
+{
+  const ini = parseISO(DATA.cursoInicio), fin = parseISO(DATA.cursoFin);
+  let cur = new Date(ini.getFullYear(), ini.getMonth(), 1);
+  const last = new Date(fin.getFullYear(), fin.getMonth(), 1);
+  while(cur<=last){ MESES_RANGO.push(new Date(cur)); cur=new Date(cur.getFullYear(),cur.getMonth()+1,1); }
+}
+let mesIdx = 0;
+let filtroActivo = null; // bloqueId o tipo
+let fechaSeleccionada = null;
+
+const selectMes = document.getElementById('selectMes');
+MESES_RANGO.forEach((d,i)=>{
+  const o = document.createElement('option');
+  o.value=i; o.textContent = MESES[d.getMonth()][0].toUpperCase()+MESES[d.getMonth()].slice(1)+' '+d.getFullYear();
+  selectMes.appendChild(o);
+});
+
+const cabeceraSemana = document.getElementById('cabeceraSemana');
+DOW.forEach(l=>{ const s=document.createElement('div'); s.className='dow'; s.textContent=l; cabeceraSemana.appendChild(s); });
+
+function renderResumenTrimestres(){
+  const cont = document.getElementById('resumenTrimestres');
+  const porTri = {};
+  DATA.unidades.forEach(u=>{ porTri[u.trimestre]=(porTri[u.trimestre]||0)+u.sesiones; });
+  const items = Object.keys(porTri).sort().map(tri=>({l:'Trimestre '+tri, v:porTri[tri]+' sesiones'}));
+  items.push({l:'Total del curso', v:DATA.totalSesiones+' sesiones'});
+  cont.innerHTML = items.map(it=>`<div class="tri-card"><div class="n">${it.v}</div><div class="l">${it.l}</div></div>`).join('');
+}
+
+function renderRibbon(){
+  const ribbon = document.getElementById('ribbon');
+  ribbon.innerHTML='';
+  const inicio = parseISO(DATA.cursoInicio), fin = parseISO(DATA.cursoFin);
+  const totalDias = diffDays(inicio,fin)+1;
+  let cursor = inicio;
+  DATA.unidades.forEach(u=>{
+    const uStart = parseISO(u.inicio), uEnd = parseISO(u.fin);
+    if(uStart>cursor){
+      addGapSeg(cursor, addDays(uStart,-1), totalDias);
+    }
+    addBlockSeg(u, uStart, uEnd, totalDias);
+    cursor = addDays(uEnd,1);
+  });
+  if(cursor<=fin){ addGapSeg(cursor, fin, totalDias); }
+
+  DATA.finales.forEach(f=>{
+    const fd = parseISO(f.fecha);
+    const offset = diffDays(inicio,fd)/totalDias*100;
+    const marker = document.createElement('div');
+    marker.className='ribbon-marker';
+    marker.style.left = offset+'%';
+    marker.title = f.nombre+' · '+fechaCorta(f.fecha);
+    marker.addEventListener('click', ()=>{ jumpToDate(f.fecha); seleccionarFecha(f.fecha); });
+    ribbon.appendChild(marker);
+  });
+
+  function addGapSeg(s,e,total){
+    const dias = diffDays(s,e)+1;
+    const seg = document.createElement('div');
+    seg.className='ribbon-seg gap';
+    seg.style.flex = dias+' 0 0';
+    seg.title = 'Periodo no lectivo · '+fechaCorta(toISO(s))+' – '+fechaCorta(toISO(e));
+    seg.addEventListener('click', ()=>jumpToDate(toISO(s)));
+    ribbon.appendChild(seg);
+  }
+  function addBlockSeg(u,s,e,total){
+    const dias = diffDays(s,e)+1;
+    const seg = document.createElement('div');
+    seg.className='ribbon-seg';
+    seg.style.flex = dias+' 0 0';
+    const color = u.tipo==='unidad'?UNIT_COLOR[u.id]:TIPO_COLOR[u.tipo];
+    seg.style.background = color;
+    seg.title = u.nombre+' · '+u.sesiones+' sesiones';
+    seg.addEventListener('click', ()=>{ jumpToDate(u.inicio); mostrarDetalleUnidad(u.id); });
+    ribbon.appendChild(seg);
+  }
+}
+
+function jumpToDate(iso){
+  const d = parseISO(iso);
+  const idx = MESES_RANGO.findIndex(m=>m.getFullYear()===d.getFullYear() && m.getMonth()===d.getMonth());
+  if(idx>=0){ mesIdx = idx; renderMes(); }
+}
+
+function renderLeyenda(){
+  const cont = document.getElementById('leyenda');
+  const items = [
+    ...DATA.unidades.filter(u=>u.tipo==='unidad').map(u=>({key:u.id, color:UNIT_COLOR[u.id], label:u.id})),
+    {key:'evaluacion', color:TIPO_COLOR.evaluacion, label:'Evaluación'},
+    {key:'recuperacion', color:TIPO_COLOR.recuperacion, label:'Recuperación'},
+    {key:'final', color:TIPO_COLOR.final, label:'Ev. final'},
+    {key:'festivo', color:TIPO_COLOR.festivo, label:'Festivo'},
+  ];
+  cont.innerHTML='';
+  items.forEach(it=>{
+    const chip = document.createElement('button');
+    chip.type='button';
+    chip.className='chip-leyenda';
+    chip.dataset.key = it.key;
+    chip.innerHTML = `<span class="punto" style="background:${it.color}"></span>${it.label}`;
+    chip.addEventListener('click', ()=>{
+      filtroActivo = (filtroActivo===it.key) ? null : it.key;
+      renderMes(); actualizarLeyendaActiva();
+    });
+    cont.appendChild(chip);
+  });
+  actualizarLeyendaActiva();
+}
+function actualizarLeyendaActiva(){
+  document.querySelectorAll('.chip-leyenda').forEach(c=>{
+    c.classList.toggle('activo', c.dataset.key===filtroActivo);
+    c.classList.toggle('inactivo-filtro', filtroActivo!==null && c.dataset.key!==filtroActivo);
+  });
+}
+
+function coincideFiltro(day){
+  if(!filtroActivo) return true;
+  if(day.tipo==='unidad') return day.bloqueId===filtroActivo;
+  return day.tipo===filtroActivo;
+}
+
+function renderMes(){
+  selectMes.value = mesIdx;
+  const base = MESES_RANGO[mesIdx];
+  const y = base.getFullYear(), m = base.getMonth();
+  const primerDiaSemana = (new Date(y,m,1).getDay()+6)%7; // 0=lunes
+  const numDias = new Date(y,m+1,0).getDate();
+  const totalCeldas = Math.ceil((primerDiaSemana+numDias)/7)*7;
+
+  const grid = document.getElementById('gridDias');
+  grid.innerHTML='';
+  for(let i=0;i<totalCeldas;i++){
+    const numDia = i-primerDiaSemana+1;
+    const celda = document.createElement('div');
+    celda.className='celda';
+    if(numDia<1 || numDia>numDias){ celda.classList.add('vacia'); grid.appendChild(celda); continue; }
+    const fecha = new Date(y,m,numDia);
+    const iso = toISO(fecha);
+    const day = dayMap.get(iso);
+
+    const num = document.createElement('div');
+    num.className='num';
+    num.textContent = numDia;
+    celda.appendChild(num);
+
+    if(day && day.tipo!=='no_lectivo_semanal' && day.tipo!=='sin_asignar'){
+      celda.classList.add('con-dato');
+      const color = colorForDay(day);
+      celda.style.background = color;
+      celda.style.borderColor = color;
+      num.style.color = textColorFor(color);
+      const etq = document.createElement('div');
+      etq.className='etq';
+      etq.style.color = textColorFor(color);
+      etq.textContent = day.tipo==='unidad' ? day.bloqueId : (day.tipo==='final' ? 'Final' : day.etiqueta);
+      celda.appendChild(etq);
+      if(day.numSesionBloque){
+        const sn = document.createElement('div');
+        sn.className='sesion-n';
+        sn.style.color = textColorFor(color);
+        sn.textContent = '#'+day.numSesionBloque;
+        celda.appendChild(sn);
+      }
+      if(!coincideFiltro(day)) celda.classList.add('dim');
+      celda.addEventListener('click', ()=>seleccionarFecha(iso));
+    } else if(day && day.tipo==='sin_asignar'){
+      celda.style.background='repeating-linear-gradient(135deg, transparent 0 6px, var(--borde) 6px 7px)';
+    }
+    if(iso===fechaSeleccionada) celda.classList.add('seleccionada');
+    grid.appendChild(celda);
+  }
+}
+
+function seleccionarFecha(iso){
+  fechaSeleccionada = iso;
+  renderMes();
+  const day = dayMap.get(iso);
+  mostrarDetalleDia(iso, day);
+}
+
+function badgeTipo(tipo){
+  const nombres = {unidad:'Unidad', evaluacion:'Evaluación', recuperacion:'Recuperación', final:'Evaluación final', festivo:'Festivo', no_lectivo_semanal:'No lectivo', sin_asignar:'Sin asignar'};
+  const colores = {unidad:'#185adb', evaluacion:TIPO_COLOR.evaluacion, recuperacion:TIPO_COLOR.recuperacion, final:TIPO_COLOR.final, festivo:TIPO_COLOR.festivo, no_lectivo_semanal:'#9297ab', sin_asignar:'#9297ab'};
+  const c = colores[tipo];
+  return `<span class="etiqueta-tipo" style="background:${c}22;color:${c}">${nombres[tipo]}</span>`;
+}
+
+function fechaLarga(iso){
+  const d = parseISO(iso);
+  return d.toLocaleDateString('es-ES',{weekday:'long', day:'numeric', month:'long', year:'numeric'});
+}
+
+function mostrarDetalleDia(iso, day){
+  const panel = document.getElementById('panelDetalle');
+  if(!day || day.tipo==='no_lectivo_semanal'){
+    panel.innerHTML = `<button class="volver visible" onclick="mostrarResumen()">← Volver al resumen</button>
+      <h2>${fechaLarga(iso)}</h2>
+      ${badgeTipo('no_lectivo_semanal')}
+      <p class="nota-panel">Día no lectivo habitual (fin de semana o fuera del horario semanal del módulo: {{DIAS_LECTIVOS_TEXTO}}).</p>`;
+    return;
+  }
+  if(day.tipo==='sin_asignar'){
+    panel.innerHTML = `<button class="volver visible" onclick="mostrarResumen()">← Volver al resumen</button>
+      <h2>${fechaLarga(iso)}</h2>
+      ${badgeTipo('sin_asignar')}
+      <p class="nota-panel">Fuera del periodo lectivo regular (que termina el {{FECHA_FIN_LECTIVO_LARGA}}) y antes de la evaluación extraordinaria. Sin unidad asignada en <code>ficha.yaml</code>.</p>`;
+    return;
+  }
+  if(day.tipo==='unidad'){
+    mostrarDetalleUnidad(day.bloqueId, iso, day.numSesionBloque);
+    return;
+  }
+  if(day.tipo==='festivo'){
+    panel.innerHTML = `<button class="volver visible" onclick="mostrarResumen()">← Volver al resumen</button>
+      <h2>${day.etiqueta}</h2>
+      <p class="fecha-larga">${fechaLarga(iso)}</p>
+      ${badgeTipo('festivo')}
+      <p class="nota-panel">Fuente: {{FUENTE_CALENDARIO_OFICIAL}}.</p>`;
+    return;
+  }
+  if(day.tipo==='final'){
+    panel.innerHTML = `<button class="volver visible" onclick="mostrarResumen()">← Volver al resumen</button>
+      <h2>${day.etiqueta}</h2>
+      <p class="fecha-larga">${fechaLarga(iso)}</p>
+      ${badgeTipo('final')}
+      <p class="nota-panel">Fuente: {{FUENTE_EVALUACION_FINAL}}.</p>`;
+    return;
+  }
+  // evaluacion / recuperacion
+  const u = unidadMap.get(day.bloqueId);
+  panel.innerHTML = `<button class="volver visible" onclick="mostrarResumen()">← Volver al resumen</button>
+    <h2>${u.nombre}</h2>
+    <p class="fecha-larga">${fechaLarga(iso)} · sesión ${day.numSesionBloque} de ${u.sesiones}</p>
+    ${badgeTipo(u.tipo)}
+    <p class="nota-panel">Periodo de ${u.tipo==='recuperacion'?'recuperación':'evaluación y repaso'} · ${fechaCorta(u.inicio)} – ${fechaCorta(u.fin)}.</p>`;
+}
+
+function mostrarDetalleUnidad(unidadId, iso, numSesion){
+  const u = unidadMap.get(unidadId);
+  const panel = document.getElementById('panelDetalle');
+  const color = UNIT_COLOR[unidadId];
+  let html = `<button class="volver visible" onclick="mostrarResumen()">← Volver al resumen</button>`;
+  html += `<h2>${u.nombre}</h2>`;
+  html += iso ? `<p class="fecha-larga">${fechaLarga(iso)} · sesión ${numSesion} de ${u.sesiones}</p>`
+              : `<p class="fecha-larga">${fechaCorta(u.inicio)} – ${fechaCorta(u.fin)} · ${u.sesiones} sesiones</p>`;
+  html += `<span class="etiqueta-tipo" style="background:${color}22;color:${color}">Trimestre ${u.trimestre}</span>`;
+  if(u.nota) html += `<p class="nota-panel" style="margin-top:0">${u.nota}</p>`;
+  if(u.raDetalle && u.raDetalle.length){
+    html += `<div style="margin-top:12px;">`;
+    u.raDetalle.forEach(ra=>{
+      html += `<div class="bloque-ra"><div class="ra-id">${ra.id}</div><div class="ra-bloque">${ra.bloque}</div><div class="ra-texto">${ra.texto}</div></div>`;
+    });
+    html += `</div>`;
+  }
+  if(u.materiales){
+    const mat = u.materiales;
+    html += `<ul class="lista-materiales">
+      <li><span class="${mat.unidad?'ok':'no'}">${mat.unidad?'✓':'○'}</span> Unidad didáctica</li>
+      <li><span class="${mat.temario>=6?'ok':'no'}">${mat.temario>=6?'✓':'○'}</span> Temario (${mat.temario}/6 archivos)</li>
+      <li><span class="${mat.tareas>0?'ok':'no'}">${mat.tareas>0?'✓':'○'}</span> Tareas/actividades (${mat.tareas} generadas)</li>
+      <li><span class="${mat.examen?'ok':'no'}">${mat.examen?'✓':'○'}</span> Examen</li>
+      <li><span class="${mat.recursos?'ok':'no'}">${mat.recursos?'✓':'○'}</span> Recursos digitales${mat.recursos?'':' (pendiente)'}</li>
+    </ul>`;
+  }
+  html += `<p class="nota-panel">El reparto de actividades se muestra por unidad, no día a día: qué sesión concreta de esta unidad se dedica a cada tarea es programación de aula, fuera de <code>ficha.yaml</code>.</p>`;
+  panel.innerHTML = html;
+}
+
+function mostrarResumen(){
+  fechaSeleccionada = null;
+  renderMes();
+  const panel = document.getElementById('panelDetalle');
+  const porTri = {};
+  DATA.unidades.forEach(u=>{ porTri[u.trimestre]=(porTri[u.trimestre]||0)+u.sesiones; });
+  const cardsTri = Object.keys(porTri).sort().map(tri=>
+    `<div class="card-resumen"><div class="t">Trimestre ${tri}</div><div class="v">${porTri[tri]} sesiones</div></div>`
+  ).join('');
+  panel.innerHTML = `<button class="volver">← Volver al resumen</button>
+    <h2>Resumen del curso</h2>
+    <p class="fecha-larga">${fechaCorta(DATA.cursoInicio)} – ${fechaCorta(DATA.cursoFin)}</p>
+    <div class="cards-resumen">
+      <div class="card-resumen"><div class="t">Sesiones totales</div><div class="v">${DATA.totalSesiones}</div></div>
+      ${cardsTri}
+    </div>
+    <p class="nota-panel">Haz clic en un día del calendario, en una franja de la barra superior o en la leyenda para ver el detalle de esa unidad, evaluación o festivo.</p>`;
+}
+
+document.getElementById('btnPrev').addEventListener('click', ()=>{ if(mesIdx>0){mesIdx--; renderMes();} });
+document.getElementById('btnNext').addEventListener('click', ()=>{ if(mesIdx<MESES_RANGO.length-1){mesIdx++; renderMes();} });
+selectMes.addEventListener('change', ()=>{ mesIdx=Number(selectMes.value); renderMes(); });
+document.getElementById('btnHoy').addEventListener('click', ()=>{
+  const iso = toISO(new Date());
+  const d = new Date();
+  const idx = MESES_RANGO.findIndex(m=>m.getFullYear()===d.getFullYear() && m.getMonth()===d.getMonth());
+  mesIdx = idx>=0 ? idx : 0;
+  renderMes();
+});
+document.querySelectorAll('[data-tri]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const tri = btn.dataset.tri;
+    const u = DATA.unidades.find(u=>String(u.trimestre)===String(tri));
+    if(u) jumpToDate(u.inicio);
+  });
+});
+
+renderResumenTrimestres();
+renderRibbon();
+renderLeyenda();
+renderMes();
+mostrarResumen();
+</script>

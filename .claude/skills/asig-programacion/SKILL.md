@@ -48,12 +48,85 @@ no lectivos de Extremadura.
    diversidad general, y bibliografía/recursos.
 6. Genera `04_TEMPORALIZACION/calendario_26_27.md`: tabla semana a semana
    con unidad/tema, sesión de evaluación o entrega si aplica.
-7. Actualiza `ficha.yaml → unidades` con la lista de unidades y sus
+7. Genera también, siempre, `04_TEMPORALIZACION/calendario_visual_<curso>.html`
+   — un calendario interactivo (navegación mes a mes, franja resumen del
+   curso completo, panel de detalle por unidad con sus RA y materiales
+   generados, leyenda filtrable) igual al ya usado en VCF y MET. No es
+   opcional ni se pregunta si se quiere: es una salida más de este comando,
+   igual que `calendario_26_27.md`.
+
+   Usa siempre la plantilla y el script compartidos por el departamento
+   (mismo motor CSS+JS para todas las asignaturas, no lo reescribas a
+   mano):
+   - Plantilla: `.claude/skills/asig-programacion/templates/calendario_visual_template.html`
+   - Generador: `.claude/skills/asig-programacion/scripts/generar_calendario_visual.py`
+
+   Pasos:
+   a. Construye un JSON de configuración (puedes escribirlo en el
+      scratchpad de la sesión, no hace falta guardarlo en el repositorio)
+      con esta forma exacta:
+      ```json
+      {
+        "titulo_pagina": "<CODIGO> · Calendario visual <curso>",
+        "eyebrow": "<CODIGO>/<CICLO> · Formdepor",
+        "curso_academico": "2026-2027",
+        "subtitulo": "Temporalización, reparto de contenidos y evaluaciones · <nombre completo de la asignatura> (<CODIGO>)",
+        "estado_badge": "BORRADOR",
+        "rango_curso_largo": "<inicio corto> – <fin corto>",
+        "dias_lectivos_texto": "<días de la semana con clase, en texto>",
+        "fecha_fin_lectivo_larga": "<fecha larga de fin del periodo lectivo regular>",
+        "fuente_calendario_oficial": "<cita de la resolución de calendario escolar>",
+        "fuente_evaluacion_final": "<cita de la resolución para las fechas de evaluación final>",
+        "footer_html": "<párrafo HTML explicando cómo leer el calendario, fuentes, estado y limitaciones conocidas>",
+        "unit_color": {"UD00": "#hex", "UD01": "#hex", "...": "..."},
+        "data": {
+          "generado": "<fecha de hoy>",
+          "cursoInicio": "YYYY-MM-DD",
+          "cursoFin": "YYYY-MM-DD",
+          "totalSesiones": 0,
+          "unidades": [
+            {"id": "UD00", "nombre": "...", "ra": ["RA1"], "inicio": "YYYY-MM-DD", "fin": "YYYY-MM-DD", "trimestre": 1, "tipo": "unidad", "archivo_base": "UD00", "sesiones": 0, "nota": "(opcional)", "raDetalle": [{"id": "RA1", "texto": "...", "bloque": "..."}], "materiales": {"unidad": true, "temario": 6, "tareas": 9, "examen": true, "recursos": false}},
+            {"id": "EVAL-T1", "nombre": "Evaluación y repaso — 1ª evaluación", "ra": [], "inicio": "YYYY-MM-DD", "fin": "YYYY-MM-DD", "trimestre": 1, "tipo": "evaluacion", "sesiones": 0}
+          ],
+          "finales": [{"id": "FINAL-ORD", "nombre": "Evaluación final ordinaria", "fecha": "YYYY-MM-DD", "tipo": "final"}, {"id": "FINAL-EXT", "nombre": "Evaluación final extraordinaria", "fecha": "YYYY-MM-DD", "tipo": "final"}],
+          "dias": [{"fecha": "YYYY-MM-DD", "weekday": 0, "tipo": "unidad|evaluacion|recuperacion|festivo|final|no_lectivo_semanal|sin_asignar", "bloqueId": "UD00", "etiqueta": "...", "numSesionBloque": 1}]
+        }
+      }
+      ```
+      El array `dias` debe cubrir **cada día natural** entre `cursoInicio`
+      y `cursoFin` (no solo los lectivos): usa `tipo: "no_lectivo_semanal"`
+      para los días de la semana sin clase de esta asignatura y fines de
+      semana, `tipo: "festivo"` con `etiqueta` para los no lectivos del
+      calendario oficial, y `tipo: "sin_asignar"` para huecos sin unidad
+      asignada. Reutiliza exactamente los mismos datos día a día, unidades,
+      RA y sesiones que ya calculaste para `calendario_26_27.md` — nunca
+      inventes un segundo cálculo independiente que pueda desincronizarse
+      del documento `.md`. El campo `materiales` de cada unidad se
+      construye comprobando (con `find`/`ls`, no de memoria) qué existe ya
+      en `05_UNIDADES/`, `06_TEMARIO/VIGENTE/`, `07_ACTIVIDADES_TAREAS/VIGENTE/`,
+      `08_EVALUACION/` y `09_RECURSOS_DIGITALES/` para esa unidad — no lo
+      des por hecho.
+   b. Ejecuta:
+      ```
+      python3 .claude/skills/asig-programacion/scripts/generar_calendario_visual.py \
+        RUTA_AL_JSON_CONFIG.json \
+        "DEPARTAMENTO_DOCENTE/ASIGNATURAS/<CODIGO>_<CICLO>/04_TEMPORALIZACION/calendario_visual_<curso>.html"
+      ```
+   c. Comprueba que el script no avisa de marcadores sin sustituir y que
+      `totalSesiones`/el número de unidades del HTML generado coinciden
+      con `calendario_26_27.md` antes de darlo por bueno.
+
+   Si en el futuro se necesita ajustar el aspecto visual (colores,
+   layout, textos fijos de la interfaz) para **todas** las asignaturas a
+   la vez, edita la plantilla compartida, no el HTML ya generado de una
+   asignatura concreta.
+8. Actualiza `ficha.yaml → unidades` con la lista de unidades y sus
    fechas de inicio/fin previstas. `estado` permanece en `borrador`.
 
 ## Salidas
 
-`programacion_26_27.md`, `calendario_26_27.md`, `ficha.yaml` actualizado.
+`programacion_26_27.md`, `calendario_26_27.md`,
+`calendario_visual_<curso>.html`, `ficha.yaml` actualizado.
 
 ## Límites
 
