@@ -235,9 +235,15 @@ tablas en vez de como texto narrativo.
       archivo locales (sin extensión para los que Drive convirtió a
       Google Doc/Sheet). Si el título aparece, el Enlace es su
       `viewUrl`; si no, "no subido a Drive".
-5. **Panel general:** una fila por asignatura, calculada agregando las
-   filas de la tabla "Documentos" de esa misma asignatura — nunca una
-   lectura independiente del repositorio:
+5. **Panel general:** una fila por asignatura. "% Preparación" y
+   "Pendientes" se calculan agregando las filas de la tabla
+   "Documentos" de esa misma asignatura. "Unidad actual", "Próxima
+   evaluación" y el caso "Alto" de "Riesgo" (unidad que empieza en menos
+   de 14 días) necesitan además la fecha de la unidad, que no está en la
+   tabla "Documentos" — para esos tres campos, consulta directamente
+   `ficha.yaml → unidades[].fechas` de esa asignatura. En ningún caso se
+   vuelve a leer el contenido de un documento ya recorrido para la tabla
+   "Documentos" (Estado, Versión, RA/Criterios, etc.):
 
    | Columna | Cómo se calcula |
    |---|---|
