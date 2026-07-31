@@ -1,6 +1,6 @@
 ---
 name: asig-estado
-description: Genera una foto de estado de las asignaturas del departamento (rol de Coordinador / Centro de control) — qué falta en cada ficha.yaml, qué carpetas están vacías, próximos hitos del calendario, incoherencias detectadas, y qué unidades próximas necesitan material todavía. Incluye un modo de resumen semanal que publica un artefacto HTML visual por asignatura y deja un borrador en Gmail con el enlace. Úsalo cuando el usuario pida el estado, resumen, panel de control, "qué falta", qué preparar la semana que viene, o cuando toque el recordatorio semanal de Google Calendar (VCF · Resumen semanal).
+description: Genera una foto de estado de las asignaturas del departamento (rol de Coordinador / Centro de control) — qué falta en cada ficha.yaml, qué carpetas están vacías, próximos hitos del calendario, incoherencias detectadas, y qué unidades próximas necesitan material todavía. Incluye un modo de resumen semanal que publica un artefacto HTML visual por asignatura y deja un borrador en Gmail con el enlace, y un modo de registro que genera una tabla viva de todos los documentos con ciclo BORRADOR/APROBADO (estado, versión, RA/criterios, enlace a Drive, acciones pendientes) más un panel resumen por asignatura. Úsalo cuando el usuario pida el estado, resumen, panel de control, "qué falta", qué preparar la semana que viene, el registro de documentos, el centro de control, o cuando toque el recordatorio semanal de Google Calendar (VCF · Resumen semanal).
 ---
 
 # /asig-estado — Coordinador de las asignaturas del departamento
@@ -9,10 +9,11 @@ description: Genera una foto de estado de las asignaturas del departamento (rol 
 
 Coordinador de asignaturas: supervisa todas las asignaturas que existan
 bajo `DEPARTAMENTO_DOCENTE/ASIGNATURAS/` (hoy VCF y MET, pensado para
-seguir creciendo), no genera contenido nuevo, solo informa. Tiene dos
-modos: el informe completo bajo demanda (tareas 1-7 más abajo) y el
+seguir creciendo), no genera contenido nuevo, solo informa. Tiene tres
+modos: el informe completo bajo demanda (tareas 1-7 más abajo), el
 resumen semanal condensado y multi-asignatura (ver "Modo resumen
-semanal").
+semanal"), y el registro de documentos con su panel general (ver "Modo
+registro").
 
 El informe completo es uno de los comandos de solo lectura/informe que
 forman la excepción de CLAUDE.md → "Cómo se resuelve la asignatura"
@@ -167,6 +168,73 @@ explícitamente y actualízalo entonces. Esto no afecta al asunto del
 borrador de Gmail (paso 6): ese es contenido generado de nuevo cada
 semana, no un artefacto externo fijo, así que ya usa directamente el
 título de departamento sin necesitar esta misma justificación.
+
+## Modo registro (Centro de Control Docente)
+
+Un tercer modo, pensado para tener una vista tabular de todos los
+documentos con ciclo de vida (`BORRADOR`/`APROBADO`) del departamento,
+con su estado, versión y qué acción pendiente tiene cada uno. No
+sustituye al informe completo ni al resumen semanal: los tres comparten
+la misma lectura del repositorio, pero este modo la presenta como dos
+tablas en vez de como texto narrativo.
+
+1. **Disparo:** a demanda ("actualiza el centro de control", "genera el
+   registro de documentos"). No tiene recordatorio de Calendar propio.
+   Si el docente lo pide explícitamente en el mismo momento que ejecuta
+   el resumen semanal, puede generarse a continuación de este, pero son
+   invocaciones independientes.
+2. **Alcance:** siempre recorre todas las asignaturas bajo
+   `DEPARTAMENTO_DOCENTE/ASIGNATURAS/*/` — igual que el resumen semanal,
+   no sigue la distinción de la nota al principio de "Tareas".
+3. **Universo de documentos:** el mismo que ya recorre `/asig-revision`
+   — los 4 documentos base, `05_UNIDADES/`, `06_TEMARIO/VIGENTE/`,
+   `07_ACTIVIDADES_TAREAS/VIGENTE/` (sus 11 subcarpetas) y
+   `08_EVALUACION/` y `09_RECURSOS_DIGITALES/` (sus subcarpetas por
+   tipo). Nunca incluye `REFERENCIA_HISTORICA/` (no tiene ciclo de
+   estado) ni, sin excepción, `10_DIVERSIDAD/INFORMES_ALUMNADO/`,
+   `10_DIVERSIDAD/PLANES_ADAPTACION/` ni
+   `11_SEGUIMIENTO_RESULTADOS/CALIFICACIONES/`.
+4. **Tabla «Documentos»:** una fila por documento del universo anterior,
+   con estas doce columnas:
+
+   | Columna | Cómo se rellena |
+   |---|---|
+   | Asignatura | `ficha.yaml → asignatura.codigo` |
+   | Unidad | token `UD<NN>` del nombre de archivo; `—` para los 4 documentos base |
+   | Tipo | carpeta contenedora: `Documento base`, `Unidad`, `Temario`, `Tarea`, `Examen` o `Recurso digital` |
+   | Curso | `ficha.yaml → asignatura.curso_academico` |
+   | Estado | `BORRADOR`/`APROBADO` del nombre de archivo; para los 4 documentos base, el marcador `**Estado:** ...` de su cabecera |
+   | Versión | token `V0X` del nombre de archivo |
+   | Última revisión | fecha del último commit que tocó ese archivo (`git log -1 --format=%as -- <ruta>`) |
+   | Próxima revisión | si `Estado = BORRADOR` y han pasado ≥15 días desde "Última revisión" (mismo umbral que usa `/asig-mantenimiento` para "BORRADOR estancados"): esa fecha límite ya vencida, marcada como tal; si `Estado = APROBADO` y el documento pertenece a una unidad cuyo `ficha.yaml → unidades[].fechas.inicio` cae dentro de los próximos 45 días: esa fecha de inicio; en cualquier otro caso, vacío |
+   | RA/Criterios | si el propio documento cita un criterio literal (patrón `RA\d+\.[a-z]` o `RA\d+`, típico en tareas y exámenes — usa `grep -oE 'RA[0-9]+(\.[a-z])?'` sobre el archivo y toma los valores únicos encontrados), esos valores; si no cita ninguno, el contenido completo de `ficha.yaml → unidades[].ra` para la unidad de ese documento (lista, p. ej. `RA7, RA8, RA9`); para los 4 documentos base, vacío |
+   | Enlace | ver algoritmo siguiente |
+   | Observaciones | marcas ya presentes en el propio documento: `[NUEVO]`, "pendiente de verificación manual", "sin respaldo histórico", o cualquier discrepancia que el documento señale explícitamente — misma extracción que ya hace `/asig-revision` al listar avisos |
+   | Acción pendiente | `Revisar y aprobar en /asig-revision` si `Estado = BORRADOR`; `Subir a Drive` si `Estado = APROBADO` y `Enlace = "no subido a Drive"`; en otro caso, vacío |
+
+   **Algoritmo para "Enlace"** (evita una búsqueda de Drive por cada
+   documento; agrupa por subcarpeta):
+   1. Por asignatura, una única búsqueda:
+      `search_files` con
+      `title = '<CODIGO>_<CICLO> <curso_academico>' and mimeType = 'application/vnd.google-apps.folder'`
+      (p. ej. `title = 'VCF_TSEAS 2026-2027' and mimeType = 'application/vnd.google-apps.folder'`).
+      Si no hay resultado, todos los documentos de esa asignatura quedan
+      con Enlace = "no subido a Drive" sin más búsquedas.
+   2. Por cada subcarpeta local que tenga al menos un documento en la
+      tabla (p. ej. `05_UNIDADES`, `06_TEMARIO`,
+      `07_ACTIVIDADES_TAREAS/<N_CARPETA>`, `08_EVALUACION`,
+      `09_RECURSOS_DIGITALES/<TIPO>`), resuélvela dentro de Drive
+      navegando por título un nivel cada vez: `search_files` con
+      `title = '<nombre carpeta>' and parentId = '<id de la carpeta padre ya resuelta>'`.
+      Si algún nivel no aparece, todos los documentos locales de esa
+      subcarpeta quedan con Enlace = "no subido a Drive" sin más
+      búsquedas para esa subcarpeta.
+   3. Con la subcarpeta de Drive ya resuelta, una única llamada
+      `search_files` con `parentId = '<id de la subcarpeta>'` devuelve
+      todos sus archivos. Cruza esos títulos contra los nombres de
+      archivo locales (sin extensión para los que Drive convirtió a
+      Google Doc/Sheet). Si el título aparece, el Enlace es su
+      `viewUrl`; si no, "no subido a Drive".
 
 ## Salidas
 
