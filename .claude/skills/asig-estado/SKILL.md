@@ -253,6 +253,32 @@ tablas en vez de como texto narrativo.
    | Próxima evaluación | la fecha del examen más próximo en `08_EVALUACION/` cuya unidad todavía no ha llegado a su `fechas.fin`; `—` si no hay ninguno pendiente |
    | Pendientes | recuento de filas de "Documentos" de esa asignatura con "Acción pendiente" no vacía |
    | Riesgo | `Alto` si hay al menos una fila con "Próxima revisión" ya vencida (caso BORRADOR estancado) próxima a una unidad que empieza en menos de 14 días; `Medio` si "Pendientes" > 0 pero sin ese caso urgente; `Bajo` si "Pendientes" = 0 |
+6. **Artefacto local (fuente real):** un único archivo Markdown en
+   `DEPARTAMENTO_DOCENTE/00_CENTRO_CONTROL/centro_control_<YYYY-MM-DD>.md`
+   (fecha de hoy), con dos secciones en este orden: `## Panel general`
+   primero (la tabla de seis columnas del punto 5, una fila por
+   asignatura), `## Documentos` después (la tabla de doce columnas del
+   punto 4, agrupada por asignatura y, dentro de cada asignatura, por
+   Tipo). Es el mismo patrón que ya usa el informe completo con
+   `estado_<YYYY-MM-DD>.md`: un archivo nuevo por ejecución, versionado
+   en git, sin pretender ser una única hoja que se sobrescribe.
+7. **Snapshot opcional a Drive:** solo si el docente lo pide
+   explícitamente en el momento de ejecutar este modo. Genera el
+   contenido de cada tabla como CSV (cabecera + filas, sin la fila
+   separadora Markdown) y súbelo con `create_file`
+   (`contentMimeType: "text/csv"`, sin `disableConversionToGoogleType`,
+   para que Drive lo convierta automáticamente a Google Sheet). Antes de
+   subir, localiza la carpeta de Drive `00_CENTRO_CONTROL 2026-2027` en
+   la raíz de Drive (`search_files` con
+   `title = '00_CENTRO_CONTROL 2026-2027' and mimeType = 'application/vnd.google-apps.folder' and parentId = 'root'`);
+   si no existe, créala primero con `create_file`
+   (`contentMimeType: "application/vnd.google-apps.folder"`, sin
+   `parentId` para que quede en la raíz de Drive). Sube dos archivos
+   separados: `Centro de Control · Panel general · <YYYY-MM-DD>` y
+   `Centro de Control · Documentos · <YYYY-MM-DD>`. Cada snapshot es un
+   archivo nuevo — no hay forma de sobrescribir uno anterior con las
+   herramientas disponibles; el docente puede acumularlos o borrarlos a
+   mano desde Drive.
 
 ## Salidas
 
@@ -267,6 +293,11 @@ misma estructura.
 `00_CENTRO_CONTROL/RESUMENES_SEMANALES/`, su artefacto publicado
 correspondiente, y un borrador en Gmail con el enlace.
 
+**Registro:** un archivo Markdown en `00_CENTRO_CONTROL/` con las tablas
+"Panel general" y "Documentos", y opcionalmente un snapshot de cada
+tabla como hoja de cálculo en Drive (carpeta `00_CENTRO_CONTROL
+2026-2027`), solo si el docente lo pide en el momento.
+
 ## Límites
 
 No modifica ni crea ningún documento de las carpetas 01-14 salvo el
@@ -274,7 +305,12 @@ propio informe en `00_CENTRO_CONTROL/`. No aprueba ni rechaza nada, solo
 informa. El resumen semanal nunca envía el correo (solo deja el
 borrador) ni inventa persistencia de casillas que no existe: todo lo
 que muestra se recalcula desde cero cada vez, a partir del estado real
-del repositorio.
+del repositorio. El modo registro nunca sube nada a Drive salvo que el
+docente lo pida explícitamente en esa misma ejecución (regla 5 de
+`CLAUDE.md`); sus lecturas de Drive para resolver el campo "Enlace" no
+crean ni modifican nada. Ninguno de los tres modos guarda un valor
+manual que sobreviva a la siguiente ejecución — todo se recalcula desde
+cero cada vez.
 
 ## Validación humana
 
