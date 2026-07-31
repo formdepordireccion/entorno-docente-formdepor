@@ -235,6 +235,18 @@ tablas en vez de como texto narrativo.
       archivo locales (sin extensión para los que Drive convirtió a
       Google Doc/Sheet). Si el título aparece, el Enlace es su
       `viewUrl`; si no, "no subido a Drive".
+5. **Panel general:** una fila por asignatura, calculada agregando las
+   filas de la tabla "Documentos" de esa misma asignatura — nunca una
+   lectura independiente del repositorio:
+
+   | Columna | Cómo se calcula |
+   |---|---|
+   | Asignatura | `ficha.yaml → asignatura.codigo` |
+   | % Preparación | (nº de filas con `Estado = APROBADO`) ÷ (nº total de filas) de esa asignatura, redondeado a entero |
+   | Unidad actual | la unidad de `ficha.yaml → unidades` cuyo rango `fechas.inicio`-`fechas.fin` contiene la fecha de hoy; `—` si ninguna |
+   | Próxima evaluación | la fecha del examen más próximo en `08_EVALUACION/` cuya unidad todavía no ha llegado a su `fechas.fin`; `—` si no hay ninguno pendiente |
+   | Pendientes | recuento de filas de "Documentos" de esa asignatura con "Acción pendiente" no vacía |
+   | Riesgo | `Alto` si hay al menos una fila con "Próxima revisión" ya vencida (caso BORRADOR estancado) próxima a una unidad que empieza en menos de 14 días; `Medio` si "Pendientes" > 0 pero sin ese caso urgente; `Bajo` si "Pendientes" = 0 |
 
 ## Salidas
 
