@@ -359,6 +359,56 @@ repositorio de nuevo por su cuenta.
    Formdepor — <DD/MM>`, cuerpo con la acción prioritaria del punto 6 y
    el enlace al artefacto publicado.
 
+## Modo planificación semanal (recordado por Calendar)
+
+Un quinto modo, disparado los domingos por la tarde, independiente del
+recordatorio de "Modo resumen semanal" (viernes). Mientras el resumen
+semanal es un panel de estado ("qué ha pasado, qué falta"), este modo es
+un checklist de preparación para la semana que empieza el lunes
+siguiente. Reutiliza los mismos cálculos que "Modo registro" y la misma
+lógica de "próxima preparación" que ya usan el informe completo y el
+resumen semanal — no vuelve a definir esas reglas.
+
+1. **Disparo:** un recordatorio recurrente de Google Calendar los
+   domingos por la tarde. El docente lo dispara al sonar el
+   recordatorio; no hay ejecución en la nube por su cuenta. Este modo no
+   crea el recordatorio real — acción aparte, explícita.
+2. **Alcance:** recorre todas las asignaturas bajo `ASIGNATURAS/*/`,
+   igual que el resumen semanal y el modo registro.
+3. **Agenda de la semana:** para cada asignatura, las sesiones de
+   `04_TEMPORALIZACION/calendario_<curso>.md` cuya fecha cae entre el
+   lunes siguiente a hoy y los 7 días posteriores.
+4. **Materiales necesarios:** de la tabla "Documentos" del modo
+   registro, qué existe y qué falta para las unidades cubiertas por la
+   agenda del punto 3.
+5. **Tareas `BORRADOR` a publicar:** filas de "Documentos" con
+   `Tipo = Tarea` y `Estado = BORRADOR` ligadas a esas mismas unidades —
+   candidatas a revisar en `/asig-revision` antes de que empiece la
+   semana.
+6. **Huecos de contenido:** misma lógica que el punto 5 del informe
+   completo ("Próxima preparación": qué falta por tipo — unidad,
+   temario, tareas, examen, recursos), pero con la ventana reducida a 14
+   días y encuadrada como lista de qué generar, no como estado.
+7. **Exámenes/solucionarios pendientes:** de "Documentos", filas
+   `Tipo = Examen` en `BORRADOR` o ausentes para las unidades de la
+   agenda del punto 3.
+8. **Prioridades de preparación:** una única lista ordenada (más urgente
+   primero, según cercanía de fecha de sesión) que reúne los elementos
+   de los puntos 4-7 — no es un cálculo nuevo, es el orden de trabajo
+   resultante de lo ya listado arriba.
+9. **Artefacto HTML:** construye la página siguiendo
+   `.claude/skills/asig-estado/reference/plantilla_planificacion_semanal.md`.
+   Guarda primero el HTML en
+   `DEPARTAMENTO_DOCENTE/00_CENTRO_CONTROL/PLANIFICACION_SEMANAL/planificacion_semanal_<YYYY-MM-DD>.html`
+   (fecha del domingo de generación) y publícalo con la herramienta
+   Artifact.
+10. **Borrador de Gmail:** crea un borrador (nunca lo envíes) a
+    `formdepor.direccion@gmail.com` con
+    `mcp__claude_ai_Gmail__create_draft`: asunto `Planificación semanal ·
+    Formdepor — semana del <DD/MM> al <DD/MM>` (rango lunes-domingo de la
+    semana que empieza), cuerpo con las prioridades de preparación del
+    punto 8 y el enlace al artefacto publicado.
+
 ## Salidas
 
 **Informe completo:** en el chat, un informe completo de cinco bloques
