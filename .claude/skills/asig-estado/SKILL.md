@@ -1,6 +1,6 @@
 ---
 name: asig-estado
-description: Genera una foto de estado de las asignaturas del departamento (rol de Coordinador / Centro de control) — qué falta en cada ficha.yaml, qué carpetas están vacías, próximos hitos del calendario, incoherencias detectadas, y qué unidades próximas necesitan material todavía. Incluye un modo de resumen semanal que publica un artefacto HTML visual por asignatura y deja un borrador en Gmail con el enlace, y un modo de registro que genera una tabla viva de todos los documentos con ciclo BORRADOR/APROBADO (estado, versión, RA/criterios, enlace a Drive, acciones pendientes) más un panel resumen por asignatura. Úsalo cuando el usuario pida el estado, resumen, panel de control, "qué falta", qué preparar la semana que viene, el registro de documentos, el centro de control, o cuando toque el recordatorio semanal de Google Calendar (VCF · Resumen semanal).
+description: Genera una foto de estado de las asignaturas del departamento (rol de Coordinador / Centro de control) — qué falta en cada ficha.yaml, qué carpetas están vacías, próximos hitos del calendario, incoherencias detectadas, y qué unidades próximas necesitan material todavía. Incluye un modo de resumen semanal que publica un artefacto HTML visual por asignatura y deja un borrador en Gmail con el enlace, un modo de registro que genera una tabla viva de todos los documentos con ciclo BORRADOR/APROBADO (estado, versión, RA/criterios, enlace a Drive, acciones pendientes) más un panel resumen por asignatura, un modo de informe diario (qué toca hoy, alertas críticas, semáforo, disparado solo en días de clase) y un modo de planificación semanal (checklist de preparación para la semana siguiente, disparado los domingos). Úsalo cuando el usuario pida el estado, resumen, panel de control, "qué falta", qué preparar la semana que viene, el registro de documentos, el centro de control, el informe de hoy, la planificación de la semana, o cuando toque alguno de los recordatorios de Google Calendar asociados.
 ---
 
 # /asig-estado — Coordinador de las asignaturas del departamento
@@ -9,11 +9,12 @@ description: Genera una foto de estado de las asignaturas del departamento (rol 
 
 Coordinador de asignaturas: supervisa todas las asignaturas que existan
 bajo `DEPARTAMENTO_DOCENTE/ASIGNATURAS/` (hoy VCF y MET, pensado para
-seguir creciendo), no genera contenido nuevo, solo informa. Tiene tres
+seguir creciendo), no genera contenido nuevo, solo informa. Tiene cinco
 modos: el informe completo bajo demanda (tareas 1-7 más abajo), el
 resumen semanal condensado y multi-asignatura (ver "Modo resumen
-semanal"), y el registro de documentos con su panel general (ver "Modo
-registro").
+semanal"), el registro de documentos con su panel general (ver "Modo
+registro"), el informe diario (ver "Modo informe diario") y la
+planificación semanal (ver "Modo planificación semanal").
 
 El informe completo es uno de los comandos de solo lectura/informe que
 forman la excepción de CLAUDE.md → "Cómo se resuelve la asignatura"
@@ -427,6 +428,15 @@ correspondiente, y un borrador en Gmail con el enlace.
 tabla como hoja de cálculo en Drive (carpeta `00_CENTRO_CONTROL
 2026-2027`), solo si el docente lo pide en el momento.
 
+**Informe diario:** un archivo HTML en
+`00_CENTRO_CONTROL/INFORMES_DIARIOS/`, su artefacto publicado
+correspondiente, y un borrador en Gmail con el enlace. Solo se genera en
+días de clase de alguna asignatura.
+
+**Planificación semanal:** un archivo HTML en
+`00_CENTRO_CONTROL/PLANIFICACION_SEMANAL/`, su artefacto publicado
+correspondiente, y un borrador en Gmail con el enlace.
+
 ## Límites
 
 No modifica ni crea ningún documento de las carpetas 01-14 salvo el
@@ -437,9 +447,12 @@ que muestra se recalcula desde cero cada vez, a partir del estado real
 del repositorio. El modo registro nunca sube nada a Drive salvo que el
 docente lo pida explícitamente en esa misma ejecución (regla 5 de
 `CLAUDE.md`); sus lecturas de Drive para resolver el campo "Enlace" no
-crean ni modifican nada. Ninguno de los tres modos guarda un valor
+crean ni modifican nada. Ninguno de los cinco modos guarda un valor
 manual que sobreviva a la siguiente ejecución — todo se recalcula desde
-cero cada vez.
+cero cada vez. El informe diario y la planificación semanal reutilizan
+los cálculos ya descritos en "Modo registro" (tabla Documentos, Panel
+general) en vez de definir reglas propias duplicadas; ninguno de los dos
+crea su recordatorio de Calendar por sí mismo.
 
 ## Validación humana
 
