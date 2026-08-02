@@ -1,0 +1,444 @@
+<title>Informe diario · Formdepor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --azul-noche: #14142d;
+    --azul-noche-suave: #1d1d40;
+    --azul-formacion: #185adb;
+    --blanco-humo: #f6f8fb;
+    --gris-texto: #6b7280;
+    --negro-suave: #1f2937;
+    --blanco: #ffffff;
+    --urgente: #d64545;
+    --ambar: #b8791a;
+    --al-dia: #1f9c5a;
+    --tarjeta-borde: #e3e7ef;
+    --tarjeta-fondo: #ffffff;
+    --pagina-fondo: var(--blanco-humo);
+    --texto-principal: var(--negro-suave);
+    --texto-secundario: var(--gris-texto);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --pagina-fondo: #0d0d1f;
+      --tarjeta-fondo: #1a1a35;
+      --tarjeta-borde: #2c2c4d;
+      --texto-principal: #e7e9f3;
+      --texto-secundario: #a2a6bd;
+      --al-dia: #3fd684;
+      --urgente: #ff6b6b;
+      --ambar: #e2a83a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --pagina-fondo: #0d0d1f;
+    --tarjeta-fondo: #1a1a35;
+    --tarjeta-borde: #2c2c4d;
+    --texto-principal: #e7e9f3;
+    --texto-secundario: #a2a6bd;
+    --al-dia: #3fd684;
+    --urgente: #ff6b6b;
+    --ambar: #e2a83a;
+  }
+  :root[data-theme="light"] {
+    --pagina-fondo: var(--blanco-humo);
+    --tarjeta-fondo: #ffffff;
+    --tarjeta-borde: #e3e7ef;
+    --texto-principal: var(--negro-suave);
+    --texto-secundario: var(--gris-texto);
+    --al-dia: #1f9c5a;
+    --urgente: #d64545;
+    --ambar: #b8791a;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--pagina-fondo);
+    color: var(--texto-principal);
+    font-family: "Aptos", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.45;
+  }
+
+  a { color: var(--azul-formacion); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--azul-formacion); outline-offset: 2px; }
+
+  .envoltorio {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 0 3rem;
+  }
+
+  header.cabecera {
+    background: var(--azul-noche);
+    color: var(--blanco);
+    padding: 2rem 1.25rem 1.5rem;
+  }
+  header.cabecera .marca {
+    font-size: 0.78rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: #b7bde0;
+    margin: 0 0 0.5rem;
+  }
+  header.cabecera h1 {
+    margin: 0 0 0.35rem;
+    font-size: clamp(1.5rem, 4vw, 1.9rem);
+    font-weight: 650;
+    text-wrap: balance;
+  }
+  header.cabecera .fecha {
+    margin: 0;
+    font-size: 1.05rem;
+    color: #dfe2f5;
+  }
+
+  .aviso-simulacion {
+    margin: 1rem 1.25rem 0;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--tarjeta-borde);
+    border-left: 3px solid var(--azul-formacion);
+    background: var(--tarjeta-fondo);
+    border-radius: 4px;
+    font-size: 0.83rem;
+    color: var(--texto-secundario);
+  }
+  .aviso-simulacion strong { color: var(--texto-principal); }
+
+  main { padding: 0 1.25rem; }
+
+  section { margin-top: 2rem; }
+  section > h2 {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--texto-secundario);
+    margin: 0 0 0.85rem;
+    font-weight: 650;
+  }
+
+  /* Agenda del día */
+  .agenda-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 620px) {
+    .agenda-grid.dos-columnas { grid-template-columns: 1fr 1fr; }
+  }
+  .tarjeta-asignatura {
+    background: var(--tarjeta-fondo);
+    border: 1px solid var(--tarjeta-borde);
+    border-radius: 10px;
+    padding: 1.1rem 1.2rem 1.25rem;
+  }
+  .tarjeta-asignatura .cabecera-tarjeta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+  .tarjeta-asignatura .codigo {
+    font-weight: 700;
+    font-size: 1.02rem;
+  }
+  .tarjeta-asignatura .sesion-tag {
+    font-size: 0.78rem;
+    color: var(--texto-secundario);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .tarjeta-asignatura .unidad {
+    font-size: 0.95rem;
+    margin: 0 0 0.7rem;
+    color: var(--texto-principal);
+  }
+  .tarjeta-asignatura .unidad .rango {
+    color: var(--texto-secundario);
+    font-size: 0.83rem;
+  }
+  .bloque-etiqueta {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--texto-secundario);
+    margin: 0.85rem 0 0.3rem;
+  }
+  .lista-actividades { margin: 0; padding: 0; list-style: none; }
+  .lista-actividades li {
+    padding: 0.4rem 0 0.4rem 0.9rem;
+    border-left: 2px solid var(--azul-formacion);
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+  }
+  .lista-actividades li .cat {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--texto-secundario);
+    margin-top: 0.1rem;
+  }
+  .linea-material {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    font-size: 0.87rem;
+    color: var(--al-dia);
+  }
+  .linea-material .icono { flex: none; }
+
+  .nota-sin-clase {
+    margin-top: 0.9rem;
+    font-size: 0.85rem;
+    color: var(--texto-secundario);
+  }
+
+  /* Alertas */
+  .linea-estado {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    font-size: 0.95rem;
+    padding: 0.55rem 0;
+  }
+  .linea-estado.ok { color: var(--al-dia); }
+  .linea-estado .icono { flex: none; font-weight: 700; }
+
+  /* Checklist próximos 7 días */
+  ul.checklist { list-style: none; margin: 0; padding: 0; }
+  ul.checklist > li {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--tarjeta-borde);
+  }
+  ul.checklist > li:last-child { border-bottom: none; }
+  .item-hito {
+    display: flex;
+    gap: 0.55rem;
+    align-items: baseline;
+    font-size: 0.93rem;
+    margin-bottom: 0.45rem;
+  }
+  .item-hito .icono { color: var(--al-dia); font-weight: 700; flex: none; }
+  .submaterial {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 1rem;
+    padding-left: 1.35rem;
+  }
+  .chip-material {
+    font-size: 0.78rem;
+    color: var(--texto-secundario);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .chip-material .icono { color: var(--al-dia); font-weight: 700; }
+
+  /* Semáforo */
+  .semaforo-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--tarjeta-borde);
+    border-radius: 8px;
+    margin-bottom: 0.6rem;
+    background: var(--tarjeta-fondo);
+  }
+  .semaforo-fila:last-child { margin-bottom: 0; }
+  .semaforo-fila .nombre { font-weight: 600; font-size: 0.92rem; }
+  .pastilla {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 0.22rem 0.6rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+  .pastilla.bajo { background: color-mix(in srgb, var(--al-dia) 18%, transparent); color: var(--al-dia); }
+  .pastilla.medio { background: color-mix(in srgb, var(--ambar) 18%, transparent); color: var(--ambar); }
+  .pastilla.alto { background: color-mix(in srgb, var(--urgente) 18%, transparent); color: var(--urgente); }
+  .nota-semaforo {
+    margin-top: 0.6rem;
+    font-size: 0.78rem;
+    color: var(--texto-secundario);
+  }
+
+  /* Acción prioritaria */
+  .accion-prioritaria {
+    background: var(--al-dia);
+    color: #06210f;
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    font-size: 1rem;
+  }
+  .accion-prioritaria .etiqueta {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 0.35rem;
+    opacity: 0.85;
+  }
+  @media (prefers-color-scheme: dark) {
+    .accion-prioritaria { color: #06210f; }
+  }
+
+  footer {
+    margin-top: 2.5rem;
+    padding: 1.1rem 1.25rem 0;
+    font-size: 0.78rem;
+    color: var(--texto-secundario);
+    border-top: 1px solid var(--tarjeta-borde);
+  }
+  footer p { margin: 0.3rem 0; }
+</style>
+
+<div class="envoltorio">
+  <header class="cabecera">
+    <p class="marca">Formdepor · TSEAS · Coordinación de asignaturas</p>
+    <h1>Informe diario · Formdepor</h1>
+    <p class="fecha">Jueves 10 de septiembre de 2026</p>
+  </header>
+
+  <p class="aviso-simulacion">
+    <strong>Nota de verificación.</strong> Este informe se ha generado el
+    2 de agosto de 2026 como prueba de que el modo "informe diario" de
+    <code>/asig-estado</code> es seguible al pie de la letra contra datos
+    reales. Hoy (domingo) no es día de clase de ninguna asignatura, así
+    que se ha usado el primer día de clase real del curso 2026-2027 —
+    jueves 10 de septiembre de 2026, primera sesión de VCF (UT0) — como
+    si fuera hoy. Todos los datos de abajo son reales del repositorio a
+    fecha de generación; ninguno está inventado.
+  </p>
+
+  <main>
+    <section aria-labelledby="h-agenda">
+      <h2 id="h-agenda">Agenda del día</h2>
+      <div class="agenda-grid">
+        <article class="tarjeta-asignatura">
+          <div class="cabecera-tarjeta">
+            <span class="codigo">VCF · Valoración de la Condición Física</span>
+            <span class="sesion-tag">Sesión 1 de 8 · 10:50–12:25</span>
+          </div>
+          <p class="unidad">
+            UT0 — Prevención de riesgos laborales y primeros auxilios básicos
+            <br /><span class="rango">10/09/2026 – 29/09/2026 · RA7, RA8, RA9</span>
+          </p>
+
+          <p class="bloque-etiqueta">Actividad prevista (sesión 1)</p>
+          <ul class="lista-actividades">
+            <li>
+              Mitos y verdades sobre primeros auxilios: diagnóstico inicial
+              <span class="cat">Actividades iniciales</span>
+            </li>
+          </ul>
+
+          <p class="bloque-etiqueta">Material pendiente de revisar antes de clase</p>
+          <p class="linea-material">
+            <span class="icono">✓</span>
+            Ninguno — unidad, temario, tareas, examen y recursos de UT0 están
+            todos en APROBADO.
+          </p>
+        </article>
+      </div>
+      <p class="nota-sin-clase">
+        MET no tiene sesión hoy — su horario semanal es miércoles y
+        viernes (jueves no es día de clase de MET).
+      </p>
+    </section>
+
+    <section aria-labelledby="h-alertas">
+      <h2 id="h-alertas">Alertas críticas</h2>
+      <div class="linea-estado ok">
+        <span class="icono">✓</span>
+        <span>
+          Sin alertas. Ningún documento en BORRADOR en todo el universo de
+          VCF ni de MET, los pares examen/solucionario de ambas
+          asignaturas están completos y en APROBADO, y ninguna
+          <code>normativa_registro.md</code> tiene cambios pendientes de
+          revisión. Hoy es día lectivo.
+        </span>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-7dias">
+      <h2 id="h-7dias">Próximos 7 días (10–17 sept.)</h2>
+      <ul class="checklist">
+        <li>
+          <div class="item-hito">
+            <span class="icono">✓</span>
+            <span>VCF — UT0 empieza hoy (10/09/2026)</span>
+          </div>
+          <div class="submaterial">
+            <span class="chip-material"><span class="icono">✓</span>Unidad</span>
+            <span class="chip-material"><span class="icono">✓</span>Temario</span>
+            <span class="chip-material"><span class="icono">✓</span>Tareas</span>
+            <span class="chip-material"><span class="icono">✓</span>Examen</span>
+            <span class="chip-material"><span class="icono">✓</span>Recursos</span>
+          </div>
+        </li>
+        <li>
+          <div class="item-hito">
+            <span class="icono">✓</span>
+            <span>MET — UD00 empieza hoy (10/09/2026, primera sesión el viernes 11/09)</span>
+          </div>
+          <div class="submaterial">
+            <span class="chip-material"><span class="icono">✓</span>Unidad</span>
+            <span class="chip-material"><span class="icono">✓</span>Temario</span>
+            <span class="chip-material"><span class="icono">✓</span>Tareas</span>
+            <span class="chip-material"><span class="icono">✓</span>Examen</span>
+            <span class="chip-material"><span class="icono">✓</span>Recursos</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="h-semaforo">
+      <h2 id="h-semaforo">Semáforo de asignaturas</h2>
+      <div class="semaforo-fila">
+        <span class="nombre">VCF · Valoración de la Condición Física</span>
+        <span class="pastilla bajo">Bajo</span>
+      </div>
+      <div class="semaforo-fila">
+        <span class="nombre">MET · Metodología de la Enseñanza de AFD</span>
+        <span class="pastilla bajo">Bajo</span>
+      </div>
+      <p class="nota-semaforo">
+        Riesgo tomado tal cual del Panel general del Modo registro: cero
+        filas en BORRADOR en el universo completo de documentos de ambas
+        asignaturas (verificado hoy por nombre de archivo). El enlace de
+        Drive no se ha vuelto a resolver documento por documento en esta
+        ejecución (ya se verificó completo para 05_UNIDADES y
+        08_EVALUACION de VCF el 24/07; no se ha repetido para el resto del
+        universo ni para MET) — no cambia el caso "Alto" (que depende solo
+        de BORRADOR vencido), pero si algún documento APROBADO no
+        estuviera aún subido a Drive, el "Medio" real podría ser distinto
+        de este cálculo.
+      </p>
+    </section>
+
+    <section aria-labelledby="h-accion">
+      <h2 id="h-accion">Acción prioritaria</h2>
+      <div class="accion-prioritaria">
+        <span class="etiqueta">Hoy</span>
+        No hay ninguna acción urgente hoy. La sesión 1 de VCF UT0 tiene su
+        actividad prevista y todo el material de la unidad ya está
+        aprobado; MET no tiene clase hasta mañana viernes.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      Todo se recalcula desde cero en cada ejecución a partir del estado
+      real del repositorio — no hay ninguna casilla marcada a mano que se
+      recuerde de una ejecución a otra.
+    </p>
+    <p>Generado el 2 de agosto de 2026 a las 23:18 (simulación para el 10 de septiembre de 2026).</p>
+  </footer>
+</div>
