@@ -290,6 +290,75 @@ tablas en vez de como texto narrativo.
    herramientas disponibles; el docente puede acumularlos o borrarlos a
    mano desde Drive.
 
+## Modo informe diario (recordado por Calendar)
+
+Un cuarto modo, pensado para un vistazo rápido antes de cada día de
+clase: qué toca hoy, qué requiere atención inmediata, y una única
+acción prioritaria. Reutiliza los cálculos ya descritos en "Modo
+registro" (tabla "Documentos" y "Panel general") en vez de recorrer el
+repositorio de nuevo por su cuenta.
+
+1. **Disparo:** un recordatorio recurrente de Google Calendar limitado a
+   los días de la semana en que al menos una asignatura tiene clase —
+   calcula la unión de `ficha.yaml → asignatura.horario_semanal` de
+   todas las asignaturas bajo `ASIGNATURAS/*/` (hoy: martes, miércoles y
+   jueves de VCF, más los días de MET). El docente lo dispara al sonar
+   el recordatorio; no hay ejecución en la nube por su cuenta. Este modo
+   no crea el recordatorio de Calendar — su creación real es una acción
+   aparte, explícita (vía `/asig-calendar-sync`).
+2. **Agenda del día:** para cada asignatura cuyo `horario_semanal` tiene
+   clase hoy, localiza en `ficha.yaml → unidades` la unidad cuyo rango
+   `fechas.inicio`-`fechas.fin` contiene la fecha de hoy, y dentro de
+   `04_TEMPORALIZACION/calendario_<curso>.md` la sesión correspondiente a
+   hoy. Si existe
+   `04_TEMPORALIZACION/calendario_visual_<curso>.html` con
+   `actividadesPorSesion` para esa unidad (generado por
+   `/asig-programacion` a partir del campo `**Sesión(es) sugerida(s):**`
+   que exige `/asig-tarea`), extrae de ahí las actividades previstas para
+   el número de sesión de hoy; si no existe ese archivo o esa unidad
+   todavía no tiene actividades generadas, indica solo la unidad y la
+   sesión, sin actividades detalladas — no inventes contenido de sesión.
+   Añade, de la tabla "Documentos" del modo registro, qué material de
+   esa unidad sigue en `BORRADOR` ("a revisar antes de clase").
+3. **Alertas críticas:** reutilizando la tabla "Documentos" ya calculada
+   (no un barrido nuevo):
+   - Filas `Estado = BORRADOR` cuya unidad empieza en los próximos 3
+     días (compara `ficha.yaml → unidades[].fechas.inicio` con hoy).
+   - Unidades con examen `APROBADO` pero sin su solucionario `APROBADO`
+     correspondiente, o viceversa — cruza filas con `Tipo = Examen` de la
+     misma `Asignatura` y `Unidad`.
+   - `01_NORMATIVA_CURRICULO/normativa_registro.md` de cualquier
+     asignatura con una sección "Cambios detectados — pendientes de
+     revisión" sin resolver.
+   - Si la sesión de hoy (punto 2) cae en un día no lectivo de
+     Extremadura (mismo calendario escolar oficial que ya usa
+     `/asig-programacion` al generar `calendario_<curso>.md`),
+     señálalo — esto es un aviso informativo, no compite por la "Acción
+     prioritaria" del punto 6.
+4. **Próximos 7 días:** misma lógica que el punto 3 del "Modo resumen
+   semanal" (hitos y unidades cuyo inicio cae en los próximos días), pero
+   con la ventana reducida a 7 días y sin el sub-bloque "la semana que
+   viene" — un único bloque "Esta semana".
+5. **Semáforo de asignaturas:** reutiliza literalmente la fila de "Panel
+   general" de cada asignatura (mismo campo "Riesgo" ya calculado):
+   `Alto` → rojo, `Medio` → ámbar, `Bajo` → verde. No se vuelve a
+   calcular "Riesgo" aquí — se toma tal cual del Panel general.
+6. **Acción prioritaria:** una frase. Si el punto 3 encontró al menos un
+   caso de los tres primeros guiones (BORRADOR próximo, examen sin
+   solucionario, normativa pendiente), usa el más urgente en ese mismo
+   orden de prioridad; si no encontró ninguno, la frase indica
+   explícitamente que no hay ninguna acción urgente hoy.
+7. **Artefacto HTML:** construye la página siguiendo
+   `.claude/skills/asig-estado/reference/plantilla_informe_diario.md`.
+   Guarda primero el HTML en
+   `DEPARTAMENTO_DOCENTE/00_CENTRO_CONTROL/INFORMES_DIARIOS/informe_diario_<YYYY-MM-DD>.html`
+   (fecha de hoy) y publícalo con la herramienta Artifact.
+8. **Borrador de Gmail:** crea un borrador (nunca lo envíes) a
+   `formdepor.direccion@gmail.com` con
+   `mcp__claude_ai_Gmail__create_draft`: asunto `Informe diario ·
+   Formdepor — <DD/MM>`, cuerpo con la acción prioritaria del punto 6 y
+   el enlace al artefacto publicado.
+
 ## Salidas
 
 **Informe completo:** en el chat, un informe completo de cinco bloques
