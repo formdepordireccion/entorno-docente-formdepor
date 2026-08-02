@@ -9,7 +9,7 @@ implementación del modo registro).
 **Alcance de esta ejecución (nota de verificación, no aplica a ejecuciones
 futuras del modo):** por diseño de la verificación, la tabla "Documentos"
 solo cubre el universo completo de dos subcarpetas de VCF_TSEAS
-(`05_UNIDADES/` y `08_EVALUACION/`, 27 documentos), no las 250+ que
+(`05_UNIDADES/` y `08_EVALUACION/`, 21 documentos), no las 250+ que
 cubriría una ejecución real del modo registro sobre todo el
 departamento. La fila de MET_TSEAS en "Panel general" se calculó con un
 barrido agregado (recuentos de archivos, sin abrir cada documento ni
@@ -25,7 +25,7 @@ de `/asig-estado` en modo registro no tiene este recorte.
 
 Notas de cálculo:
 
-- **VCF** — % Preparación, Pendientes y Riesgo se calculan sobre las 27
+- **VCF** — % Preparación, Pendientes y Riesgo se calculan sobre las 21
   filas de la tabla "Documentos" de abajo (únicamente
   `05_UNIDADES/`+`08_EVALUACION/`, ver nota de alcance arriba), no sobre
   el universo completo de VCF. Unidad actual: ninguna unidad de
@@ -53,22 +53,22 @@ Notas de cálculo:
 ## Documentos
 
 Universo: `VCF_TSEAS/05_UNIDADES/` (7 documentos, todos `Tipo = Unidad`) y
-`VCF_TSEAS/08_EVALUACION/` (20 documentos: 10 exámenes + 10
+`VCF_TSEAS/08_EVALUACION/` (14 documentos: 7 exámenes + 7
 solucionarios, todos `Tipo = Examen`). Se excluyen los `README.md` de
 ambas carpetas (no tienen ciclo `BORRADOR`/`APROBADO`). Todos los
 documentos de este universo están en estado `APROBADO`, versión `V01`,
 curso `2026-2027`, con último commit `2026-07-24`
 (`git log -1 --format=%as`). Ninguno tiene marcas `[NUEVO]`, "pendiente
 de verificación manual" ni "sin respaldo histórico" (comprobado con
-`grep` sobre los 27 archivos).
+`grep` sobre los 21 archivos).
 
 Enlace de Drive resuelto siguiendo el algoritmo de tres pasos del
 `SKILL.md`: carpeta raíz `VCF_TSEAS 2026-2027` → subcarpeta
 (`05_UNIDADES` u `08_EVALUACION`) → listado de archivos por `parentId`,
-cruzando título (sin extensión) contra el nombre de archivo local. Los 27
+cruzando título (sin extensión) contra el nombre de archivo local. Los 21
 documentos se encontraron subidos con ese algoritmo — ningún caso de "no
 subido a Drive" en este universo, por lo que "Acción pendiente" queda
-vacía en las 27 filas.
+vacía en las 21 filas.
 
 ### Tipo: Unidad
 
@@ -111,9 +111,9 @@ diff):
 
 1. **Paginación del listado de una subcarpeta.** El texto decía "una
    única llamada `search_files` con `parentId = '<id>'` devuelve todos
-   sus archivos". Al ejecutarlo contra `08_EVALUACION` (20 documentos)
+   sus archivos". Al ejecutarlo contra `08_EVALUACION` (14 documentos)
    la llamada devolvió solo 10 y un `nextPageToken` — sin seguir
-   paginando, la mitad de los documentos habría quedado marcada
+   paginando, los 4 documentos restantes habrían quedado marcados
    incorrectamente como "no subida a Drive". Se corrigió el texto para
    indicar que hay que seguir paginando con `nextPageToken` hasta
    agotarlo.
@@ -139,4 +139,4 @@ Ningún otro punto del "Modo registro" necesitó corrección: el resto de
 reglas (extracción de Estado/Versión/Unidad del nombre de archivo, fecha
 de último commit, patrón `grep` de RA/Criterios, marcas de Observaciones,
 regla de Acción pendiente) se siguieron literalmente y produjeron un
-valor concreto en las 27 filas, sin ningún caso ambiguo.
+valor concreto en las 21 filas, sin ningún caso ambiguo.
