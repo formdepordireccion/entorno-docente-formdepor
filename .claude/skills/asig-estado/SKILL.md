@@ -389,7 +389,14 @@ resumen semanal — no vuelve a definir esas reglas.
 6. **Huecos de contenido:** misma lógica que el punto 5 del informe
    completo ("Próxima preparación": qué falta por tipo — unidad,
    temario, tareas, examen, recursos), pero con la ventana reducida a 14
-   días y encuadrada como lista de qué generar, no como estado.
+   días y encuadrada como lista de qué generar, no como estado. Si la
+   unidad de referencia ya tiene sesiones programadas en
+   `calendario_<curso>.md`, contrasta la fecha de `ficha.yaml →
+   unidades[].fechas.inicio` con la fecha real de su primera sesión en
+   ese calendario: si discrepan, usa la fecha del calendario (la real)
+   para calcular los días restantes y señala la discrepancia de forma
+   explícita en el artefacto, en vez de reproducir en silencio el dato
+   de `ficha.yaml` sin contrastarlo.
 7. **Exámenes/solucionarios pendientes:** de "Documentos", filas
    `Tipo = Examen` en `BORRADOR` o ausentes para las unidades de la
    agenda del punto 3.
