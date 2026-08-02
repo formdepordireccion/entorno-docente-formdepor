@@ -137,7 +137,7 @@ salida.
    `.claude/skills/asig-estado/reference/plantilla_resumen_semanal.md`
    (paleta y tipografía FORMDEPOR, estructura por asignatura). Guarda
    primero el HTML en
-   `DEPARTAMENTO_DOCENTE/00_CENTRO_CONTROL/RESUMENES_SEMANALES/resumen_semanal_<YYYY-MM-DD>.html`
+   `DEPARTAMENTO_DOCENTE/00_CENTRO_CONTROL/03_RESUMENES_SEMANALES/resumen_semanal_<YYYY-MM-DD>.html`
    (fecha del lunes de esa semana) y publícalo con la herramienta
    Artifact — cada semana es un archivo y una URL nueva, para que quede
    como registro histórico y no se pise el de la semana anterior.
@@ -352,7 +352,7 @@ repositorio de nuevo por su cuenta.
 7. **Artefacto HTML:** construye la página siguiendo
    `.claude/skills/asig-estado/reference/plantilla_informe_diario.md`.
    Guarda primero el HTML en
-   `DEPARTAMENTO_DOCENTE/00_CENTRO_CONTROL/INFORMES_DIARIOS/informe_diario_<YYYY-MM-DD>.html`
+   `DEPARTAMENTO_DOCENTE/00_CENTRO_CONTROL/01_INFORMES_DIARIOS/informe_diario_<YYYY-MM-DD>.html`
    (fecha de hoy) y publícalo con la herramienta Artifact.
 8. **Borrador de Gmail:** crea un borrador (nunca lo envíes) a
    `formdepor.direccion@gmail.com` con
@@ -407,7 +407,7 @@ resumen semanal — no vuelve a definir esas reglas.
 9. **Artefacto HTML:** construye la página siguiendo
    `.claude/skills/asig-estado/reference/plantilla_planificacion_semanal.md`.
    Guarda primero el HTML en
-   `DEPARTAMENTO_DOCENTE/00_CENTRO_CONTROL/PLANIFICACION_SEMANAL/planificacion_semanal_<YYYY-MM-DD>.html`
+   `DEPARTAMENTO_DOCENTE/00_CENTRO_CONTROL/02_PLANIFICACION_SEMANAL/planificacion_semanal_<YYYY-MM-DD>.html`
    (fecha del domingo de generación) y publícalo con la herramienta
    Artifact.
 10. **Borrador de Gmail:** crea un borrador (nunca lo envíes) a
@@ -427,7 +427,7 @@ más de una. Opcionalmente, un archivo en `00_CENTRO_CONTROL/` con la
 misma estructura.
 
 **Resumen semanal:** un archivo HTML en
-`00_CENTRO_CONTROL/RESUMENES_SEMANALES/`, su artefacto publicado
+`00_CENTRO_CONTROL/03_RESUMENES_SEMANALES/`, su artefacto publicado
 correspondiente, y un borrador en Gmail con el enlace.
 
 **Registro:** un archivo Markdown en `00_CENTRO_CONTROL/` con las tablas
@@ -436,12 +436,12 @@ tabla como hoja de cálculo en Drive (carpeta `00_CENTRO_CONTROL
 2026-2027`), solo si el docente lo pide en el momento.
 
 **Informe diario:** un archivo HTML en
-`00_CENTRO_CONTROL/INFORMES_DIARIOS/`, su artefacto publicado
+`00_CENTRO_CONTROL/01_INFORMES_DIARIOS/`, su artefacto publicado
 correspondiente, y un borrador en Gmail con el enlace. Solo se genera en
 días de clase de alguna asignatura.
 
 **Planificación semanal:** un archivo HTML en
-`00_CENTRO_CONTROL/PLANIFICACION_SEMANAL/`, su artefacto publicado
+`00_CENTRO_CONTROL/02_PLANIFICACION_SEMANAL/`, su artefacto publicado
 correspondiente, y un borrador en Gmail con el enlace.
 
 ## Límites
