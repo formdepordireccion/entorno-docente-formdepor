@@ -85,7 +85,7 @@ no lectivos de Extremadura.
           "cursoFin": "YYYY-MM-DD",
           "totalSesiones": 0,
           "unidades": [
-            {"id": "UD00", "nombre": "...", "ra": ["RA1"], "inicio": "YYYY-MM-DD", "fin": "YYYY-MM-DD", "trimestre": 1, "tipo": "unidad", "archivo_base": "UD00", "sesiones": 0, "nota": "(opcional)", "raDetalle": [{"id": "RA1", "texto": "...", "bloque": "..."}], "materiales": {"unidad": true, "temario": 6, "tareas": 9, "examen": true, "recursos": false}},
+            {"id": "UD00", "nombre": "...", "ra": ["RA1"], "inicio": "YYYY-MM-DD", "fin": "YYYY-MM-DD", "trimestre": 1, "tipo": "unidad", "archivo_base": "UD00", "sesiones": 0, "nota": "(opcional)", "raDetalle": [{"id": "RA1", "texto": "...", "bloque": "..."}], "materiales": {"unidad": true, "temario": 6, "tareas": 9, "examen": true, "recursos": false}, "actividadesPorSesion": {"1": [{"titulo": "...", "categoria": "Actividades iniciales", "archivo": "../../07_ACTIVIDADES_TAREAS/VIGENTE/1_ACTIVIDADES_INICIALES/<CODIGO>_TAREA_UD00_1_<curso>_V01_APROBADO.md"}]}, "actividadesFlexibles": [{"titulo": "...", "categoria": "Actividades de refuerzo", "archivo": "../../07_ACTIVIDADES_TAREAS/VIGENTE/10_ACTIVIDADES_REFUERZO/<CODIGO>_TAREA_UD00_8_<curso>_V01_APROBADO.md"}]},
             {"id": "EVAL-T1", "nombre": "Evaluación y repaso — 1ª evaluación", "ra": [], "inicio": "YYYY-MM-DD", "fin": "YYYY-MM-DD", "trimestre": 1, "tipo": "evaluacion", "sesiones": 0}
           ],
           "finales": [{"id": "FINAL-ORD", "nombre": "Evaluación final ordinaria", "fecha": "YYYY-MM-DD", "tipo": "final"}, {"id": "FINAL-EXT", "nombre": "Evaluación final extraordinaria", "fecha": "YYYY-MM-DD", "tipo": "final"}],
@@ -106,6 +106,27 @@ no lectivos de Extremadura.
       en `05_UNIDADES/`, `06_TEMARIO/VIGENTE/`, `07_ACTIVIDADES_TAREAS/VIGENTE/`,
       `08_EVALUACION/` y `09_RECURSOS_DIGITALES/` para esa unidad — no lo
       des por hecho.
+
+      Los campos `actividadesPorSesion` y `actividadesFlexibles` de cada
+      unidad se construyen leyendo, para cada tarea ya generada de esa
+      unidad en cualquier subcarpeta de `07_ACTIVIDADES_TAREAS/VIGENTE/`
+      (`BORRADOR` o `APROBADO`, ambos cuentan), la línea `**Sesión(es)
+      sugerida(s):** ...` que define `/asig-tarea` justo tras la cabecera
+      de estado — no la infieras del contenido de la tarea, usa
+      literalmente ese campo. Si el valor es un número (`N`) o un rango
+      (`N-M`), la tarea va en `actividadesPorSesion`, bajo la clave de
+      cada número de sesión que cubra (un rango `2-3` aparece tanto en
+      `"2"` como en `"3"`); si el valor es `flexible (...)`, la tarea va
+      en `actividadesFlexibles` en su lugar. Cada entrada lleva `titulo`
+      (el título de la tarea, sin el prefijo "TAREA UDxx-n —"),
+      `categoria` (el nombre legible de su subcarpeta, p. ej.
+      "Actividades iniciales" para `1_ACTIVIDADES_INICIALES/`) y
+      `archivo` con la ruta relativa desde
+      `04_TEMPORALIZACION/calendario_visual_<curso>.html` hasta el
+      archivo de la tarea (típicamente
+      `../../07_ACTIVIDADES_TAREAS/VIGENTE/<N_CARPETA>/<archivo>.md`). Si
+      una unidad todavía no tiene tareas generadas, omite ambos campos o
+      déjalos vacíos — no inventes actividades de relleno.
    b. Ejecuta:
       ```
       python3 .claude/skills/asig-programacion/scripts/generar_calendario_visual.py \

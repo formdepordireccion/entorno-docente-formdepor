@@ -78,11 +78,25 @@ número de sesiones (una) y formato (individual o grupo).
    que evalúa (citados literalmente de `ficha.yaml`), tiempo estimado,
    recursos/material necesario, y criterios de entrega (qué se espera,
    en qué formato, individual o en grupo).
-4. Numera la tarea siguiendo la secuencia ya usada para esa unidad en
+4. Incluye siempre, como línea propia justo después del párrafo de
+   `**Estado: ...**` de la cabecera (antes de "Origen del material" o de
+   cualquier otro contenido), el campo estructurado:
+   `**Sesión(es) sugerida(s):** <N>` o `<N>-<M>` para un rango — usando
+   el mismo número de sesión que ya manejas para redactar el resto de la
+   tarea (fecha/sesión dentro de la unidad). Si la actividad es de
+   repaso o ampliación **sin una sesión fija** (se aplica cuando el
+   docente lo considere, no ligada a un día concreto), usa en su lugar:
+   `**Sesión(es) sugerida(s):** flexible (repaso/ampliación sin sesión
+   fija — a criterio del docente, no ligada a un día concreto del
+   calendario)`. Este campo es el que `/asig-programacion` lee
+   literalmente para volcar la propuesta de actividades al calendario
+   visual — mantén el formato exacto (negrita, dos puntos, sin variarlo)
+   para que siga siendo extraíble automáticamente.
+5. Numera la tarea siguiendo la secuencia ya usada para esa unidad en
    **cualquier** subcarpeta de `07_ACTIVIDADES_TAREAS/VIGENTE/` (revisa
    las 11 antes de asignar un número, para no duplicar entre
    categorías).
-5. Guarda como
+6. Guarda como
    `07_ACTIVIDADES_TAREAS/VIGENTE/<N_CARPETA>/<CODIGO>_TAREA_UD<NN>_<N>_2026-2027_V01_BORRADOR.md`,
    donde `<CODIGO>` es el código de la asignatura (resuelto según CLAUDE.md → "Cómo se resuelve la asignatura"), `<N_CARPETA>` es la subcarpeta de la categoría elegida,
    `<NN>` es la unidad y `<N>` el número de tarea dentro de esa unidad

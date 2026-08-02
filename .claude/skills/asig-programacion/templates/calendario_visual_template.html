@@ -129,6 +129,13 @@
   .bloque-ra .ra-id{font-weight:700;font-size:.78rem;color:var(--azul-formacion);}
   .bloque-ra .ra-bloque{font-size:.72rem;color:var(--gris-texto);margin:2px 0 4px;font-weight:600;}
   .bloque-ra .ra-texto{font-size:.82rem;}
+  .bloque-actividades{margin-top:14px;padding-top:12px;border-top:1px solid var(--borde);}
+  .bloque-actividades h3{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--gris-texto);margin:0 0 8px;}
+  .item-actividad{display:flex;flex-direction:column;gap:2px;font-size:.82rem;padding:7px 0;border-bottom:1px dashed var(--borde);}
+  .item-actividad:last-child{border-bottom:none;}
+  .item-actividad a{color:var(--negro-suave);text-decoration:none;font-weight:600;}
+  .item-actividad a:hover{color:var(--azul-formacion);text-decoration:underline;}
+  .cat-actividad{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--azul-formacion);}
   .lista-materiales{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;}
   .lista-materiales li{display:flex;align-items:baseline;gap:7px;font-size:.82rem;}
   .lista-materiales .ok{color:#23935f;font-weight:700;}
@@ -480,8 +487,31 @@ function mostrarDetalleUnidad(unidadId, iso, numSesion){
       <li><span class="${mat.recursos?'ok':'no'}">${mat.recursos?'✓':'○'}</span> Recursos digitales${mat.recursos?'':' (pendiente)'}</li>
     </ul>`;
   }
-  html += `<p class="nota-panel">El reparto de actividades se muestra por unidad, no día a día: qué sesión concreta de esta unidad se dedica a cada tarea es programación de aula, fuera de <code>ficha.yaml</code>.</p>`;
+  html += renderActividadesSesion(u, numSesion);
+  html += `<p class="nota-panel">Las actividades mostradas son la propuesta de sesión de <code>/asig-tarea</code> (campo "Sesión(es) sugerida(s)" de cada tarea) — el docente puede reordenarlas libremente en su programación de aula real.</p>`;
   panel.innerHTML = html;
+}
+
+function renderActividadesSesion(u, numSesion){
+  const porSesion = (u.actividadesPorSesion && numSesion) ? (u.actividadesPorSesion[String(numSesion)] || []) : [];
+  const flexibles = u.actividadesFlexibles || [];
+  if(!porSesion.length && !flexibles.length) return '';
+  let html = '';
+  if(porSesion.length){
+    html += `<div class="bloque-actividades"><h3>Actividades propuestas para esta sesión</h3>`;
+    porSesion.forEach(a=>{ html += itemActividad(a); });
+    html += `</div>`;
+  }
+  if(flexibles.length){
+    html += `<div class="bloque-actividades"><h3>Refuerzo / ampliación — sin sesión fija</h3>`;
+    flexibles.forEach(a=>{ html += itemActividad(a); });
+    html += `</div>`;
+  }
+  return html;
+}
+function itemActividad(a){
+  const enlace = a.archivo ? `<a href="${a.archivo}" target="_blank" rel="noopener">${a.titulo}</a>` : a.titulo;
+  return `<div class="item-actividad"><span class="cat-actividad">${a.categoria}</span>${enlace}</div>`;
 }
 
 function mostrarResumen(){
