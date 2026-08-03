@@ -1,11 +1,16 @@
 # Entorno docente — Formdepor
 
 Este repositorio es el entorno docente vivo del departamento de **Formdepor**,
-ciclo **Técnico Superior en Enseñanza y Animación Sociodeportiva (TSEAS)**,
-comunidad autónoma **Extremadura**, curso **2026-2027**. Cada asignatura vive
-en su propia carpeta bajo `DEPARTAMENTO_DOCENTE/ASIGNATURAS/<CODIGO>_<CICLO>/`
-(hoy: `VCF_TSEAS` y `MET_TSEAS`) y comparte la misma capa de comandos
-`/asig-*` descrita más abajo.
+comunidad autónoma **Extremadura**, curso **2026-2027**. Cubre varios ciclos
+formativos, no uno solo — hoy **Técnico Superior en Enseñanza y Animación
+Sociodeportiva (TSEAS)** y **Técnico en Guía en el Medio Natural y de Tiempo
+Libre (GUIA)**, y crecerá con más según se vayan incorporando asignaturas.
+Cada asignatura vive en su propia carpeta bajo
+`DEPARTAMENTO_DOCENTE/ASIGNATURAS/<CODIGO>_<CICLO>/` (hoy: `VCF_TSEAS`,
+`MET_TSEAS` y `NAT_GUIA`) y comparte la misma capa de comandos `/asig-*`
+descrita más abajo — el ciclo concreto de cada una vive en su propio
+`ficha.yaml → asignatura.ciclo`, nunca hay que asumir que todas
+comparten el mismo.
 
 Es el piloto (Fase 0 + Fase 1) de una arquitectura departamental más amplia
 descrita en `entorno_preparacion_clases_compacto.md`. Ver
@@ -25,13 +30,17 @@ para el diseño completo.
   evaluación...), iguales para cada asignatura. Cada una tiene un
   `README.md` explicando su propósito.
 - Asignaturas activas hoy:
-  - **VCF** — Valoración de la Condición Física (`VCF_TSEAS/`).
-  - **MET** — Metodología de la Enseñanza de Actividades Físico-Deportivas
-    (`MET_TSEAS/`).
-- `3. VALORACIÓN 25_26/` y `3. METODOLOGÍA 25_26/` — material histórico
-  original de cada asignatura. **Nunca se mueve ni se borra directamente**;
-  solo `/asig-auditoria` puede copiar de aquí a `DEPARTAMENTO_DOCENTE/`, y
-  solo tras confirmación explícita del usuario. Esas copias hacen crecer el
+  - **VCF** — Valoración de la Condición Física, ciclo TSEAS (`VCF_TSEAS/`).
+  - **MET** — Metodología de la Enseñanza de Actividades Físico-Deportivas,
+    ciclo TSEAS (`MET_TSEAS/`).
+  - **NAT** — Técnicas de Natación, ciclo GUIA (Técnico en Guía en el Medio
+    Natural y de Tiempo Libre) (`NAT_GUIA/`).
+- `3. VALORACIÓN 25_26/`, `3. METODOLOGÍA 25_26/` y `Tecnicas de natación/`
+  — material histórico original de cada asignatura (el nombre exacto de
+  cada carpeta no sigue un patrón fijo, es simplemente como llegó del
+  docente). **Nunca se mueve ni se borra directamente**; solo
+  `/asig-auditoria` puede copiar de aquí a `DEPARTAMENTO_DOCENTE/`, y solo
+  tras confirmación explícita del usuario. Esas copias hacen crecer el
   repositorio de git con el tiempo, porque los binarios no son diffables,
   así que conviene hacer las migraciones grandes de forma deliberada y no
   todas de golpe.
