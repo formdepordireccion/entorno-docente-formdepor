@@ -7,7 +7,7 @@ Sociodeportiva (TSEAS)** y **Técnico en Guía en el Medio Natural y de Tiempo
 Libre (GUIA)**, y crecerá con más según se vayan incorporando asignaturas.
 Cada asignatura vive en su propia carpeta bajo
 `DEPARTAMENTO_DOCENTE/ASIGNATURAS/<CODIGO>_<CICLO>/` (hoy: `VCF_TSEAS`,
-`MET_TSEAS` y `NAT_GUIA`) y comparte la misma capa de comandos `/asig-*`
+`MET_TSEAS`, `NAT_GUIA` y `SOC_GUIA`) y comparte la misma capa de comandos `/asig-*`
 descrita más abajo — el ciclo concreto de cada una vive en su propio
 `ficha.yaml → asignatura.ciclo`, nunca hay que asumir que todas
 comparten el mismo.
@@ -35,7 +35,9 @@ para el diseño completo.
     ciclo TSEAS (`MET_TSEAS/`).
   - **NAT** — Técnicas de Natación, ciclo GUIA (Técnico en Guía en el Medio
     Natural y de Tiempo Libre) (`NAT_GUIA/`).
-- `3. VALORACIÓN 25_26/`, `3. METODOLOGÍA 25_26/` y `Tecnicas de natación/`
+  - **SOC** — Socorrismo en el Medio Natural, ciclo GUIA (`SOC_GUIA/`).
+- `3. VALORACIÓN 25_26/`, `3. METODOLOGÍA 25_26/`, `Tecnicas de natación/` y
+  `2. SOCORRISMO EN EL MEDIO NATURAL 25_26/`
   — material histórico original de cada asignatura (el nombre exacto de
   cada carpeta no sigue un patrón fijo, es simplemente como llegó del
   docente). **Nunca se mueve ni se borra directamente**; solo
