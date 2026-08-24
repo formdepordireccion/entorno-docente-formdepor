@@ -1,6 +1,6 @@
 ---
 name: asig-recursos
-description: Genera, por trimestre completo, los recursos digitales de apoyo de todas las unidades reales de ese trimestre de la asignatura resuelta (sincronizado con ficha.yaml → unidades → trimestre). Presentación PowerPoint local es obligatoria para cada unidad; esquemas visuales, infografías, fichas interactivas, material de aula virtual y actividades gamificadas se generan cuando aportan valor real. Todo queda en BORRADOR, pendiente de aprobación vía /asig-revision — forma parte de "la fábrica" de generación de contenido junto a /asig-tema, /asig-tarea, /asig-unidad y /asig-examen. Úsalo cuando el usuario pida generar los recursos digitales de un trimestre o de una unidad concreta de la asignatura resuelta.
+description: Genera, por trimestre completo, los recursos digitales de apoyo de todas las unidades reales de ese trimestre de la asignatura resuelta (sincronizado con ficha.yaml → unidades → trimestre). Dos presentaciones PowerPoint locales son obligatorias por unidad (una general/docente, otra para alumnado); esquemas visuales, infografías, fichas interactivas, material de aula virtual y actividades gamificadas se generan cuando aportan valor real. Todo queda en BORRADOR, pendiente de aprobación vía /asig-revision — forma parte de "la fábrica" de generación de contenido junto a /asig-tema, /asig-tarea, /asig-unidad y /asig-examen. Úsalo cuando el usuario pida generar los recursos digitales de un trimestre o de una unidad concreta de la asignatura resuelta.
 ---
 
 # /asig-recursos — Recursos digitales
@@ -56,7 +56,8 @@ actual.
 
 ## Tareas (por cada unidad del trimestre)
 
-1. Genera la **presentación** (obligatoria — ver subsección propia).
+1. Genera las **dos presentaciones** (general/docente y alumnado —
+   ambas obligatorias, ver subsección propia).
 2. Para cada uno de los otros cinco tipos, decide si aporta valor real
    para el contenido concreto de esa unidad (ver "Criterio de
    selección" abajo) y, si sí, genéralo; si no, dilo explícitamente y
@@ -98,7 +99,11 @@ resuelve la asignatura"):
 
 Ejemplo: `<CODIGO>_PRESENTACION_UD00_2026-2027_V01_BORRADOR.pptx` (p.
 ej. `VCF_PRESENTACION_UD00_2026-2027_V01_BORRADOR.pptx` para VCF,
-`MET_PRESENTACION_UD00_2026-2027_V01_BORRADOR.pptx` para MET).
+`MET_PRESENTACION_UD00_2026-2027_V01_BORRADOR.pptx` para MET). La
+presentación tiene dos variantes obligatorias por unidad — ver la
+subsección propia más abajo —: la general/docente usa este nombre sin
+sufijo, y la de alumnado añade `_ALUMNADO` antes de la extensión (p.
+ej. `VCF_PRESENTACION_UD00_2026-2027_V01_BORRADOR_ALUMNADO.pptx`).
 
 **Nunca lee ni incluye nada de `10_DIVERSIDAD/INFORMES_ALUMNADO/`,
 `10_DIVERSIDAD/PLANES_ADAPTACION/` ni
@@ -107,13 +112,38 @@ son material curricular genérico, nunca datos reales de alumnado.
 
 ---
 
-## Tipo de recurso: Presentación (obligatorio)
+## Tipo de recurso: Presentación (obligatorio — dos por unidad)
 
 `.pptx` real generado localmente con `python-pptx` (entorno virtual
 propio del proyecto, `.venv-recursos/`, fuera de git — ver
 `.gitignore`; si no existe todavía: `python3 -m venv .venv-recursos &&
 .venv-recursos/bin/pip install python-pptx`). No depende de ningún
 servicio en la nube ni de ninguna suscripción.
+
+Cada unidad lleva **dos presentaciones obligatorias**, ambas con el
+mismo mecanismo de generación (esquema Markdown → script) y el mismo
+sistema de diseño, pero con fuente y destinatario distintos:
+
+1. **General/docente** (la que ya existía): pensada para que el
+   docente la proyecte en clase; se apoya en el `DOCENTE` completo del
+   temario (ver más abajo). Nomenclatura sin sufijo, como hasta ahora.
+2. **Para alumnado** (nueva): una presentación por cada tema —es
+   decir, por cada unidad, ya que en este modelo de datos un tema
+   equivale a una unidad (`06_TEMARIO/VIGENTE/` genera un único juego
+   de variantes por `UD`)—, pensada para que el alumnado la reciba
+   como material de estudio propio (proyectada en clase y/o subida al
+   aula virtual). Se apoya en el `ALUMNADO` del temario, no en el
+   `DOCENTE`: lenguaje ya adaptado al alumnado, sin el aparato de citas
+   de fuente, avisos de "pendiente de aprobación" ni matices internos
+   que sí llevan los documentos de trabajo del docente. Prioriza
+   claridad conceptual y apoyo visual sobre exhaustividad técnica —
+   puede tener menos diapositivas que la versión docente si el
+   contenido lo permite, pero sigue sin límite fijo: dos o tres
+   diapositivas ligeras son mejores que una sola sobrecargada.
+   Nomenclatura con sufijo `_ALUMNADO`, en la misma carpeta
+   `PRESENTACIONES/` (son dos variantes del mismo tipo de recurso, como
+   ya conviven `ALUMNADO`/`DOCENTE`/etc. dentro de `06_TEMARIO/VIGENTE/`
+   — no es "mezclar tipos distintos en la misma carpeta").
 
 **Toda presentación sigue el sistema de diseño "UD00 style"**, descrito
 completo en
@@ -139,13 +169,17 @@ en una — más diapositivas con contenido genuino es preferible a menos
 diapositivas demasiado densas o vacías de sustancia. El proceso tiene
 dos pasos:
 
-1. **Transforma tú mismo** el contenido de la unidad (partiendo del
-   `DOCENTE`, no del `RESUMEN`) en un esquema nuevo: un Markdown con un
-   `#` (título de portada) y varios `##` (uno por diapositiva). Es una
-   transformación real de formato — de prosa para leer a guión visual
-   para proyectar — no una poda agresiva: la meta es cubrir el temario
-   con detalle, igual que harías tú si prepararas la presentación a
-   mano. El script reconoce estas convenciones en el esquema (detalle
+1. **Transforma tú mismo** el contenido de la unidad — partiendo del
+   `DOCENTE` para la presentación general, y del `ALUMNADO` (no del
+   `RESUMEN` ni del `DOCENTE`) para la presentación de alumnado — en un
+   esquema nuevo: un Markdown con un `#` (título de portada) y varios
+   `##` (uno por diapositiva). Es una transformación real de formato —
+   de prosa para leer a guión visual para proyectar — no una poda
+   agresiva: la meta es cubrir el temario con detalle, igual que harías
+   tú si prepararas la presentación a mano (ajustando esa exhaustividad
+   al destinatario: todo el detalle técnico para la versión docente,
+   los conceptos y su apoyo visual para la de alumnado). El script
+   reconoce estas convenciones en el esquema (detalle
    completo y actualizado siempre en el docstring de
    `scripts/generar_pptx.py`, que es la fuente de verdad técnica):
    - `## RA<n> — Título` (o `## Separador: Título`) → separador oscuro
@@ -169,8 +203,12 @@ dos pasos:
      (formas nativas de PowerPoint, elegido por palabra clave del
      título — ver `ICONOS_POR_PALABRA_CLAVE` en el script).
    Guarda este esquema como
-   `09_RECURSOS_DIGITALES/PRESENTACIONES/<CODIGO>_PRESENTACION_<UD>_<curso>_V01_BORRADOR_ESQUEMA.md`.
-2. Conviértelo a `.pptx`:
+   `09_RECURSOS_DIGITALES/PRESENTACIONES/<CODIGO>_PRESENTACION_<UD>_<curso>_V01_BORRADOR_ESQUEMA.md`
+   para la versión general/docente, y como
+   `09_RECURSOS_DIGITALES/PRESENTACIONES/<CODIGO>_PRESENTACION_<UD>_<curso>_V01_BORRADOR_ALUMNADO_ESQUEMA.md`
+   para la versión de alumnado — son dos archivos de esquema distintos,
+   uno por destinatario, no un único esquema reutilizado.
+2. Conviértelo a `.pptx` (una llamada al script por cada esquema):
    ```
    .venv-recursos/bin/python .claude/skills/asig-recursos/scripts/generar_pptx.py \
      --input "09_RECURSOS_DIGITALES/PRESENTACIONES/<CODIGO>_PRESENTACION_<UD>_<curso>_V01_BORRADOR_ESQUEMA.md" \
@@ -180,6 +218,11 @@ dos pasos:
      --subtitulo "<curso o edición>" \
      --pie "<CODIGO> · <CICLO> · FORMDEPOR"
    ```
+   y, con el segundo esquema, la misma llamada cambiando `--input` a
+   `..._BORRADOR_ALUMNADO_ESQUEMA.md` y `--output` a
+   `..._BORRADOR_ALUMNADO.pptx` (mismos `--titulo`/`--etiqueta`/
+   `--subtitulo`/`--pie`, salvo que el título de portada deba adaptarse
+   al tono de alumnado).
    `<CODIGO>` y `<CICLO>` son los de la asignatura resuelta (ver
    CLAUDE.md → "Cómo se resuelve la asignatura"). `--etiqueta`,
    `--subtitulo` y `--pie` son opcionales (el script cae en valores
@@ -188,10 +231,11 @@ dos pasos:
    `--etiqueta "VCF · TSEAS"` y `--pie "VCF · TSEAS · FORMDEPOR"` para
    VCF; `--etiqueta "MET · TSEAS"` y `--pie "MET · TSEAS · FORMDEPOR"`
    para MET).
-3. Informa de la ruta del `.pptx` y de cualquier aviso de estilo que
-   imprima el script (título largo, cuerpo fuera del rango de
-   palabras recomendado) — revísalos antes de dar la presentación por
-   buena.
+3. Informa de la ruta de los dos `.pptx` (general y alumnado) y de
+   cualquier aviso de estilo que imprima el script en cualquiera de las
+   dos ejecuciones (título largo, cuerpo fuera del rango de palabras
+   recomendado) — revísalos antes de dar cualquiera de las dos
+   presentaciones por buena.
 
 **Patrones del documento de diseño que el script NO implementa** (guía,
 patrones B, E, I, M — cuadrícula 2×2 de cuatro bloques fijos,
