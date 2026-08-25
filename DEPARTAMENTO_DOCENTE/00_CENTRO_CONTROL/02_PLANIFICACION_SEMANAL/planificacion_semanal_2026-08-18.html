@@ -1,0 +1,391 @@
+<title>Planificación semanal · Formdepor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --azul-noche: #14142d;
+    --azul-formacion: #185adb;
+    --blanco-humo: #f6f8fb;
+    --gris-texto: #6b7280;
+    --negro-suave: #1f2937;
+    --blanco: #ffffff;
+    --urgente: #d64545;
+    --al-dia: #1f9c5a;
+    --tarjeta-borde: #e3e7ef;
+    --tarjeta-fondo: #ffffff;
+    --pagina-fondo: var(--blanco-humo);
+    --texto-principal: var(--negro-suave);
+    --texto-secundario: var(--gris-texto);
+    --prioridad-fondo: rgba(24, 90, 219, 0.07);
+    --prioridad-borde: rgba(24, 90, 219, 0.35);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --pagina-fondo: #0d0d1f;
+      --tarjeta-fondo: #1a1a35;
+      --tarjeta-borde: #2c2c4d;
+      --texto-principal: #e7e9f3;
+      --texto-secundario: #a2a6bd;
+      --al-dia: #3fd684;
+      --urgente: #ff6b6b;
+      --prioridad-fondo: rgba(24, 90, 219, 0.16);
+      --prioridad-borde: rgba(90, 140, 235, 0.45);
+    }
+  }
+  :root[data-theme="dark"] {
+    --pagina-fondo: #0d0d1f;
+    --tarjeta-fondo: #1a1a35;
+    --tarjeta-borde: #2c2c4d;
+    --texto-principal: #e7e9f3;
+    --texto-secundario: #a2a6bd;
+    --al-dia: #3fd684;
+    --urgente: #ff6b6b;
+    --prioridad-fondo: rgba(24, 90, 219, 0.16);
+    --prioridad-borde: rgba(90, 140, 235, 0.45);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--pagina-fondo);
+    color: var(--texto-principal);
+    font-family: "Aptos", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  a { color: var(--azul-formacion); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--azul-formacion); outline-offset: 2px; }
+
+  .pagina {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 0 20px 64px;
+  }
+
+  header.cabecera {
+    background: var(--azul-noche);
+    color: var(--blanco);
+    margin: 0 -20px 28px;
+    padding: 40px 20px 32px;
+  }
+  .cabecera-inner { max-width: 900px; margin: 0 auto; }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    color: #aab4e0;
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: "Aptos Display", "Aptos", ui-sans-serif, system-ui, sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 650;
+    margin: 0 0 8px;
+    text-wrap: balance;
+  }
+  .rango-fechas { color: #cdd4f0; font-size: 0.98rem; margin: 0; }
+
+  .aviso-verano {
+    margin-top: 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #dfe2f5;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+  .aviso-verano .icono { flex: none; font-weight: 700; color: #b7bde0; }
+
+  main {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 720px) {
+    main.multi { grid-template-columns: 1fr 1fr; }
+  }
+
+  .tarjeta-asignatura {
+    background: var(--tarjeta-fondo);
+    border: 1px solid var(--tarjeta-borde);
+    border-radius: 16px;
+    padding: 24px 24px 20px;
+  }
+  .asignatura-titulo { margin: 0 0 4px; }
+  .asignatura-titulo h2 {
+    font-family: "Aptos Display", "Aptos", sans-serif;
+    font-size: 1.2rem;
+    font-weight: 650;
+    margin: 0;
+    color: var(--texto-principal);
+  }
+  .asignatura-ciclo {
+    color: var(--texto-secundario);
+    font-size: 0.86rem;
+    margin: 0 0 18px;
+  }
+
+  .subbloque { margin-top: 18px; }
+  .subbloque h3 {
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 700;
+    color: var(--texto-secundario);
+    margin: 0 0 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--tarjeta-borde);
+  }
+
+  .linea-agenda-vacia {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: var(--texto-secundario);
+    font-size: 0.92rem;
+    padding: 2px 0;
+  }
+  .linea-agenda-vacia .icono { flex: none; color: var(--texto-secundario); font-weight: 700; }
+
+  .nada-pendiente {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: var(--al-dia);
+    font-size: 0.93rem;
+    font-weight: 600;
+    padding: 10px 0 2px;
+  }
+  .nada-pendiente::before { content: "✓"; font-weight: 700; flex: none; }
+
+  .nota-discrepancia {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: var(--urgente);
+    background: color-mix(in srgb, var(--urgente) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--urgente) 35%, transparent);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    padding: 8px 10px;
+    margin-top: 8px;
+  }
+  .nota-discrepancia .icono { flex: none; font-weight: 700; }
+  .nota-discrepancia code { color: inherit; }
+
+  .bloque-prioridades {
+    margin-top: 28px;
+    background: var(--prioridad-fondo);
+    border: 1px solid var(--prioridad-borde);
+    border-radius: 16px;
+    padding: 24px 26px 22px;
+  }
+  .bloque-prioridades h2 {
+    font-family: "Aptos Display", "Aptos", sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: var(--texto-principal);
+  }
+  .bloque-prioridades .subtexto {
+    color: var(--texto-secundario);
+    font-size: 0.86rem;
+    margin: 0 0 14px;
+  }
+  .prioridades-vacio {
+    position: relative;
+    padding-left: 1.4rem;
+    color: var(--al-dia);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.55;
+  }
+  .prioridades-vacio::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: 700;
+  }
+
+  footer {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--tarjeta-borde);
+    color: var(--texto-secundario);
+    font-size: 0.82rem;
+    line-height: 1.65;
+  }
+  footer p { margin: 0 0 8px; }
+  footer strong { color: var(--texto-principal); }
+</style>
+
+<div class="pagina">
+  <header class="cabecera">
+    <div class="cabecera-inner">
+      <p class="eyebrow">Formdepor · TSEAS · GUIA · Coordinación de asignaturas</p>
+      <h1>Planificación semanal · Formdepor</h1>
+      <p class="rango-fechas">Semana del lunes 24 al domingo 30 de agosto de 2026 · generado el martes 18 de agosto de 2026</p>
+      <div class="aviso-verano">
+        <span class="icono">i</span>
+        <span>
+          Este modo se dispara normalmente los domingos por la tarde; se ha generado hoy, martes, a
+          petición directa del docente. La semana del 24-30 de agosto sigue en pleno periodo estival: el
+          curso 2026-2027 empieza el 10 de septiembre (VCF/MET), el 11 (SOC) y el 15 (NAT), así que
+          ninguna asignatura tiene sesión programada en <code>calendario_26_27.md</code> dentro de esta
+          ventana. La "Agenda de la semana" de las 4 tarjetas está vacía por eso — no es un fallo del
+          cálculo. El resto de sub-bloques se ha calculado igualmente contra el estado real del
+          repositorio, con independencia de que haya o no clase esta semana exacta.
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="multi">
+    <section class="tarjeta-asignatura">
+      <div class="asignatura-titulo"><h2>Metodología de la Enseñanza de AFD (MET)</h2></div>
+      <p class="asignatura-ciclo">Técnico Superior en Enseñanza y Animación Sociodeportiva (TSEAS) · curso 2026-2027</p>
+
+      <div class="subbloque">
+        <h3>Agenda de la semana</h3>
+        <p class="linea-agenda-vacia"><span class="icono">—</span>Sin sesiones entre el 24 y el 30 de agosto (verano; MET tiene clase miércoles y viernes, pero no empieza hasta el 11/09).</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Materiales necesarios</h3>
+        <p class="nada-pendiente">Nada pendiente: las 6 unidades de MET (UT0–UT5) tienen unidad, temario, tareas, examen y solucionario en APROBADO — 0 archivos en BORRADOR en todo <code>MET_TSEAS/</code>.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Tareas BORRADOR a publicar</h3>
+        <p class="nada-pendiente">Ninguna: no hay ningún archivo en BORRADOR bajo <code>07_ACTIVIDADES_TAREAS/VIGENTE/</code> de MET.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Huecos de contenido (próximos 14 días)</h3>
+        <p class="nada-pendiente">Ninguno: la primera sesión real de MET es el 11/09/2026 — a 24 días de hoy, fuera de la ventana de 14 días.</p>
+        <p class="nota-discrepancia"><span class="icono">⚠</span>Discrepancia ya conocida: <code>ficha.yaml → unidades[0].fechas.inicio</code> registra el 10/09/2026 para UT0 (jueves, día sin clase de MET), mientras que la primera sesión real en <code>calendario_26_27.md</code> es el 11/09/2026 (viernes). Pendiente de corrección del docente en <code>ficha.yaml</code> si procede.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Exámenes / solucionarios pendientes</h3>
+        <p class="nada-pendiente">Ninguno: las 6 unidades de MET tienen su examen y su solucionario, ambos en APROBADO.</p>
+      </div>
+    </section>
+
+    <section class="tarjeta-asignatura">
+      <div class="asignatura-titulo"><h2>Técnicas de Natación (NAT)</h2></div>
+      <p class="asignatura-ciclo">Técnico en Guía en el Medio Natural y de Tiempo Libre (GUIA) · curso 2026-2027</p>
+
+      <div class="subbloque">
+        <h3>Agenda de la semana</h3>
+        <p class="linea-agenda-vacia"><span class="icono">—</span>Sin sesiones entre el 24 y el 30 de agosto (verano; NAT tiene clase los martes, pero no empieza hasta el 15/09).</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Materiales necesarios</h3>
+        <p class="nada-pendiente">Nada pendiente: las 8 unidades de NAT (UD00–UD07) tienen unidad, temario y examen en APROBADO — 0 archivos en BORRADOR en todo <code>NAT_GUIA/</code>.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Tareas BORRADOR a publicar</h3>
+        <p class="nada-pendiente">Ninguna: no hay ningún archivo en BORRADOR bajo <code>07_ACTIVIDADES_TAREAS/VIGENTE/</code> de NAT.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Huecos de contenido (próximos 14 días)</h3>
+        <p class="nada-pendiente">Ninguno: UD00 empieza el 15/09/2026 — a 28 días de hoy, fuera de la ventana de 14 días.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Exámenes / solucionarios pendientes</h3>
+        <p class="nada-pendiente">Ninguno: las 7 unidades de NAT con examen (UD01–UD07) tienen su examen y su solucionario, ambos en APROBADO.</p>
+      </div>
+    </section>
+
+    <section class="tarjeta-asignatura">
+      <div class="asignatura-titulo"><h2>Socorrismo en el Medio Natural (SOC)</h2></div>
+      <p class="asignatura-ciclo">Técnico en Guía en el Medio Natural y de Tiempo Libre (GUIA) · curso 2026-2027</p>
+
+      <div class="subbloque">
+        <h3>Agenda de la semana</h3>
+        <p class="linea-agenda-vacia"><span class="icono">—</span>Sin sesiones entre el 24 y el 30 de agosto (verano; SOC tiene clase los viernes, pero no empieza hasta el 11/09).</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Materiales necesarios</h3>
+        <p class="nada-pendiente">Nada pendiente: las 7 unidades de SOC (UD00–UD06) y sus 4 documentos base quedaron 100&nbsp;% APROBADO hoy mismo — 0 archivos en BORRADOR en todo <code>SOC_GUIA/</code>.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Tareas BORRADOR a publicar</h3>
+        <p class="nada-pendiente">Ninguna: las 16 tareas de SOC ya están en APROBADO.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Huecos de contenido (próximos 14 días)</h3>
+        <p class="nada-pendiente">Ninguno: UD00 empieza el 11/09/2026 — a 24 días de hoy, fuera de la ventana de 14 días.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Exámenes / solucionarios pendientes</h3>
+        <p class="nada-pendiente">Ninguno: las 7 unidades de SOC tienen su examen y su solucionario, ambos en APROBADO.</p>
+      </div>
+    </section>
+
+    <section class="tarjeta-asignatura">
+      <div class="asignatura-titulo"><h2>Valoración de la Condición Física (VCF)</h2></div>
+      <p class="asignatura-ciclo">Técnico Superior en Enseñanza y Animación Sociodeportiva (TSEAS) · curso 2026-2027</p>
+
+      <div class="subbloque">
+        <h3>Agenda de la semana</h3>
+        <p class="linea-agenda-vacia"><span class="icono">—</span>Sin sesiones entre el 24 y el 30 de agosto (verano; VCF tiene clase martes, miércoles y jueves, pero no empieza hasta el 10/09).</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Materiales necesarios</h3>
+        <p class="nada-pendiente">Nada pendiente: las 7 unidades de VCF (UT0–UT4, incluidas UT3a/b/c) tienen unidad, temario, tareas, examen y solucionario en APROBADO — 0 archivos en BORRADOR en todo <code>VCF_TSEAS/</code>.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Tareas BORRADOR a publicar</h3>
+        <p class="nada-pendiente">Ninguna: no hay ningún archivo en BORRADOR bajo <code>07_ACTIVIDADES_TAREAS/</code> de VCF.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Huecos de contenido (próximos 14 días)</h3>
+        <p class="nada-pendiente">Ninguno: UT0 empieza el 10/09/2026 — a 23 días de hoy, fuera de la ventana de 14 días.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>Exámenes / solucionarios pendientes</h3>
+        <p class="nada-pendiente">Ninguno: las 7 unidades de VCF tienen su examen y su solucionario, ambos en APROBADO.</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="bloque-prioridades">
+    <h2>Prioridades de preparación</h2>
+    <p class="subtexto">Reordenación de los cuatro sub-bloques de arriba (materiales, tareas, huecos, exámenes) — no es un cálculo nuevo.</p>
+    <p class="prioridades-vacio">Sin prioridades esta semana: los 16 sub-bloques anteriores (cuatro por cada una de las 4 asignaturas) están vacíos. No hay ninguna sesión en la ventana del 24-30 de agosto y, además, las 4 asignaturas tienen el 100&nbsp;% de su documentación (unidades, temario, tareas, exámenes y solucionarios) en APROBADO — verificado hoy con un barrido completo de archivos <code>*BORRADOR*</code> en <code>DEPARTAMENTO_DOCENTE/ASIGNATURAS/{MET_TSEAS,NAT_GUIA,SOC_GUIA,VCF_TSEAS}/</code> (excluyendo <code>REFERENCIA_HISTORICA/</code>), que no encontró ninguno.</p>
+  </div>
+
+  <footer>
+    <p>
+      Todo se recalcula desde cero en cada ejecución a partir del estado real
+      del repositorio — no hay ninguna casilla marcada a mano que se recuerde
+      de una ejecución a otra. Si algo vuelve a aparecer como pendiente en una
+      futura planificación semanal, es porque el archivo correspondiente
+      sigue sin existir en ese momento.
+    </p>
+    <p>Generado el 18 de agosto de 2026, a petición directa del docente (no en el disparo habitual de domingo por la tarde).</p>
+  </footer>
+</div>

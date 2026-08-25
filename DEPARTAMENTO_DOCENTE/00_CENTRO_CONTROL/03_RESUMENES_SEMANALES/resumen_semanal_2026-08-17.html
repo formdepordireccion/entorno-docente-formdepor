@@ -1,0 +1,386 @@
+<title>Resumen semanal · Formdepor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --azul-noche: #14142d;
+    --azul-noche-suave: #1d1d40;
+    --azul-formacion: #185adb;
+    --blanco-humo: #f6f8fb;
+    --tarjeta: #ffffff;
+    --borde: #e3e7ef;
+    --gris-texto: #6b7280;
+    --negro-suave: #1f2937;
+    --blanco: #ffffff;
+    --urgente: #c8433f;
+    --al-dia: #23935f;
+    --sombra: 0 1px 2px rgba(20, 20, 45, 0.06), 0 8px 24px -12px rgba(20, 20, 45, 0.18);
+  }
+
+  :root[data-theme="dark"] {
+    --blanco-humo: #0f0f24;
+    --tarjeta: #181834;
+    --borde: #2a2a4d;
+    --gris-texto: #9297ab;
+    --negro-suave: #e7e9f2;
+    --al-dia: #3ecf8e;
+    --urgente: #ef6b64;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --blanco-humo: #0f0f24;
+      --tarjeta: #181834;
+      --borde: #2a2a4d;
+      --gris-texto: #9297ab;
+      --negro-suave: #e7e9f2;
+      --al-dia: #3ecf8e;
+      --urgente: #ef6b64;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--blanco-humo);
+    color: var(--negro-suave);
+    font-family: "Aptos", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+  }
+
+  .pagina {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 20px 64px;
+  }
+
+  header.cabecera {
+    background: var(--azul-noche);
+    color: var(--blanco);
+    margin: 0 -20px 28px;
+    padding: 40px 20px 32px;
+  }
+
+  .cabecera-inner {
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    color: #aab4e0;
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+
+  h1 {
+    font-family: "Aptos Display", "Aptos", ui-sans-serif, system-ui, sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 650;
+    margin: 0 0 8px;
+    text-wrap: balance;
+  }
+
+  .rango-fechas {
+    color: #cdd4f0;
+    font-size: 0.98rem;
+    margin: 0;
+  }
+
+  .banner-al-dia {
+    margin-top: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(62, 207, 142, 0.14);
+    border: 1px solid rgba(62, 207, 142, 0.4);
+    color: #7fe6b8;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+
+  .banner-al-dia .punto {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--al-dia);
+    flex: none;
+  }
+
+  .aviso-manual {
+    margin-top: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #dfe2f5;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+  .aviso-manual .icono { flex: none; font-weight: 700; color: #b7bde0; }
+
+  main {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 720px) {
+    main.multi { grid-template-columns: 1fr 1fr; }
+  }
+
+  .tarjeta-asignatura {
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: 16px;
+    box-shadow: var(--sombra);
+    padding: 24px 24px 20px;
+  }
+
+  .asignatura-titulo {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+
+  .asignatura-titulo h2 {
+    font-family: "Aptos Display", "Aptos", sans-serif;
+    font-size: 1.2rem;
+    font-weight: 650;
+    margin: 0;
+    color: var(--negro-suave);
+  }
+
+  .asignatura-ciclo {
+    color: var(--gris-texto);
+    font-size: 0.86rem;
+    margin: 0 0 18px;
+  }
+
+  .subbloque {
+    margin-top: 16px;
+  }
+
+  .subbloque h3 {
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 700;
+    color: var(--gris-texto);
+    margin: 0 0 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .linea-al-dia {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: var(--al-dia);
+    font-size: 0.92rem;
+    font-weight: 600;
+    padding: 4px 0;
+  }
+
+  .linea-al-dia::before {
+    content: "✓";
+    font-weight: 700;
+    flex: none;
+  }
+
+  .item {
+    display: flex;
+    gap: 10px;
+    padding: 7px 0;
+    align-items: flex-start;
+  }
+
+  .item .estado {
+    flex: none;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .item.pendiente .estado { color: var(--urgente); }
+  .item.hecho .estado { color: var(--al-dia); }
+
+  .item .texto { font-size: 0.94rem; }
+  .item .comando {
+    display: block;
+    color: var(--gris-texto);
+    font-size: 0.82rem;
+    margin-top: 1px;
+  }
+
+  footer {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--borde);
+    color: var(--gris-texto);
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+
+  footer strong { color: var(--negro-suave); }
+</style>
+
+<div class="pagina">
+  <header class="cabecera">
+    <div class="cabecera-inner">
+      <p class="eyebrow">TSEAS · GUIA · Formdepor</p>
+      <h1>Resumen semanal — 18 al 25 de agosto de 2026</h1>
+      <p class="rango-fechas">Generado el 18 de agosto de 2026</p>
+      <div class="banner-al-dia">
+        <span class="punto"></span>
+        Todo al día: sin urgencias en las próximas dos semanas, en ninguna de las 4 asignaturas.
+      </div>
+      <div class="aviso-manual">
+        <span class="icono">i</span>
+        <span>
+          Generado a petición explícita del docente ("usa todos los disparadores de /asig-estado"), no por el
+          recordatorio semanal habitual de Google Calendar. Cubre por primera vez las 4 asignaturas del
+          departamento (antes solo VCF y MET) — SOC_GUIA quedó 100&nbsp;% APROBADO hoy mismo tras su
+          <code>/asig-revision</code>, y NAT_GUIA aparece aquí igual de al día aunque su <code>ficha.yaml → estado</code>
+          siga marcado como <code>borrador</code> a nivel de metadato (ver el informe completo de hoy).
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="multi">
+    <section class="tarjeta-asignatura">
+      <div class="asignatura-titulo">
+        <h2>Metodología de la Enseñanza de AFD (MET)</h2>
+      </div>
+      <p class="asignatura-ciclo">Técnico Superior en Enseñanza y Animación Sociodeportiva (TSEAS) · curso 2026-2027</p>
+
+      <div class="subbloque">
+        <h3>Esta semana · 18 – 25 ago</h3>
+        <p class="linea-al-dia">Sin pendientes: ninguna unidad empieza ni hay huecos de contenido en esta ventana.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>La semana que viene · 25 ago – 1 sept</h3>
+        <p class="linea-al-dia">Sin pendientes en esta ventana tampoco.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>De un vistazo</h3>
+        <p class="item hecho">
+          <span class="estado">✓</span>
+          <span class="texto">Las 6 unidades del curso (UT0–UT5) tienen unidad, temario, tareas, examen y solucionario en APROBADO.</span>
+        </p>
+        <p class="item pendiente">
+          <span class="estado">○</span>
+          <span class="texto">Próximo hito real: primera sesión el viernes 11/09/2026 (calendario real; <code>ficha.yaml</code> registra el 10/09, jueves, día sin clase de MET — discrepancia ya señalada) — fuera de esta ventana de 14 días.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="tarjeta-asignatura">
+      <div class="asignatura-titulo">
+        <h2>Técnicas de Natación (NAT)</h2>
+      </div>
+      <p class="asignatura-ciclo">Técnico en Guía en el Medio Natural y de Tiempo Libre (GUIA) · curso 2026-2027</p>
+
+      <div class="subbloque">
+        <h3>Esta semana · 18 – 25 ago</h3>
+        <p class="linea-al-dia">Sin pendientes: ninguna unidad empieza ni hay huecos de contenido en esta ventana.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>La semana que viene · 25 ago – 1 sept</h3>
+        <p class="linea-al-dia">Sin pendientes en esta ventana tampoco.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>De un vistazo</h3>
+        <p class="item hecho">
+          <span class="estado">✓</span>
+          <span class="texto">Las 8 unidades del curso (UD00–UD07) tienen unidad, temario y examen en APROBADO.</span>
+        </p>
+        <p class="item pendiente">
+          <span class="estado">○</span>
+          <span class="texto">Próximo hito real: UD00 empieza el 15/09/2026 — fuera de esta ventana de 14 días.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="tarjeta-asignatura">
+      <div class="asignatura-titulo">
+        <h2>Socorrismo en el Medio Natural (SOC)</h2>
+      </div>
+      <p class="asignatura-ciclo">Técnico en Guía en el Medio Natural y de Tiempo Libre (GUIA) · curso 2026-2027</p>
+
+      <div class="subbloque">
+        <h3>Esta semana · 18 – 25 ago</h3>
+        <p class="linea-al-dia">Sin pendientes: ninguna unidad empieza ni hay huecos de contenido en esta ventana.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>La semana que viene · 25 ago – 1 sept</h3>
+        <p class="linea-al-dia">Sin pendientes en esta ventana tampoco.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>De un vistazo</h3>
+        <p class="item hecho">
+          <span class="estado">✓</span>
+          <span class="texto">Las 7 unidades (UD00–UD06), su temario, tareas, examen y recursos digitales quedaron 100&nbsp;% APROBADO hoy mismo, junto con los 4 documentos base.</span>
+        </p>
+        <p class="item pendiente">
+          <span class="estado">○</span>
+          <span class="texto">Próximo hito real: UD00 empieza el 11/09/2026 — fuera de esta ventana de 14 días.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="tarjeta-asignatura">
+      <div class="asignatura-titulo">
+        <h2>Valoración de la Condición Física (VCF)</h2>
+      </div>
+      <p class="asignatura-ciclo">Técnico Superior en Enseñanza y Animación Sociodeportiva (TSEAS) · curso 2026-2027</p>
+
+      <div class="subbloque">
+        <h3>Esta semana · 18 – 25 ago</h3>
+        <p class="linea-al-dia">Sin pendientes: ninguna unidad empieza ni hay huecos de contenido en esta ventana.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>La semana que viene · 25 ago – 1 sept</h3>
+        <p class="linea-al-dia">Sin pendientes en esta ventana tampoco.</p>
+      </div>
+
+      <div class="subbloque">
+        <h3>De un vistazo</h3>
+        <p class="item hecho">
+          <span class="estado">✓</span>
+          <span class="texto">Las 7 unidades del curso (UT0–UT4, incluidas UT3a/b/c) tienen unidad, temario, tareas, examen y solucionario en APROBADO.</span>
+        </p>
+        <p class="item pendiente">
+          <span class="estado">○</span>
+          <span class="texto">Próximo hito real: UT0 empieza el 10/09/2026 — fuera de esta ventana de 14 días.</span>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Cómo leer este resumen:</strong> las marcas se recalculan solo
+    comprobando si el archivo esperado ya existe en el repositorio en el
+    momento de generar esta página — no hay ninguna casilla que se pueda
+    marcar a mano y quede guardada; es una página estática. Si algo sigue
+    apareciendo como pendiente la semana que viene, es porque el archivo
+    correspondiente sigue sin generarse. Generado por <code>/asig-estado</code>
+    (modo resumen semanal) el 18 de agosto de 2026, a petición directa del docente.
+  </footer>
+</div>
