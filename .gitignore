@@ -3,6 +3,15 @@
 .worktrees/
 /3. VALORACIÓN 25_26/
 
+# Contenido real de las asignaturas (fichas, unidades, temario, tareas,
+# exámenes, recursos digitales...) — se quitó del historial de este
+# repositorio compartido el 2026-09-01 a petición del docente: el
+# repositorio de GitHub es solo el "motor" (CLAUDE.md, las skills
+# /asig-*, plantillas) para que cada profesor genere su propio contenido
+# desde cero en su asignatura; el contenido ya generado no se comparte.
+# Sigue intacto en disco, solo deja de versionarse aquí.
+/DEPARTAMENTO_DOCENTE/ASIGNATURAS/
+
 # Entorno virtual local para generar PowerPoint (python-pptx) — se
 # recrea con: python3 -m venv .venv-recursos && .venv-recursos/bin/pip
 # install python-pptx. Ver .claude/skills/asig-recursos/SKILL.md.
