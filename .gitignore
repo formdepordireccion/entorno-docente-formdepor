@@ -21,3 +21,16 @@
 # agregados en INFORMES/ sí se versionan (son anónimos por diseño).
 **/11_SEGUIMIENTO_RESULTADOS/CALIFICACIONES/*
 !**/11_SEGUIMIENTO_RESULTADOS/CALIFICACIONES/README.md
+
+# Material histórico original en binario (escaneos/PDF/DOCX/PPTX/XLSX de
+# REFERENCIA_HISTORICA) — se quitó del historial de git el 2026-09-01
+# para poder compartir el repositorio en GitHub (un solo PDF superaba el
+# límite de 100 MB de GitHub, y en conjunto pesaban ~630 MB). Los
+# archivos siguen en disco tal cual, solo dejan de versionarse; el README
+# y los .md de referencia (borrador de programación migrado) de cada
+# carpeta sí se versionan, porque los cita el resto del proyecto.
+**/REFERENCIA_HISTORICA/*.pdf
+**/REFERENCIA_HISTORICA/*.docx
+**/REFERENCIA_HISTORICA/*.pptx
+**/REFERENCIA_HISTORICA/*.xlsx
+**/REFERENCIA_HISTORICA/*.png
